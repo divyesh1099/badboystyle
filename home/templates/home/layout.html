@@ -34,11 +34,18 @@
             <div class="collapse navbar-collapse" id="navcol-1">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link" href="{% url 'home:all' %}" style="color: rgba(0, 0, 0, 0.55);border-color: rgba(0, 0, 0, 0.55);border-top-color: rgba(0,;border-right-color: 0,;border-bottom-color: 0,;border-left-color: 0.55);font-weight: bold;">All</a></li>
-                    <li class="nav-item"><a class="nav-link" href="jean.html" style="padding: 0px;">
-                            <div class="btn-group dropdown"><a class="btn btn-primary text-uppercase" role="button" style="color: rgba(0, 0, 0, 0.55);background: transparent;padding: 8px;height: 35.2px;width: 104.925px;font-size: 12.8px;border-radius: 0px;border-color: rgba(0,0,0,0.55);border-top-color: transparent;border-right-color: transparent;border-bottom-color: transparent;border-left-color: transparent;font-weight: bold;" href="#"><strong>Categories</strong></a><button class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false" type="button" style="background: rgb(255,255,255);color: rgba(0,0,0,0.55);border-color: rgba(0,0,0,0);padding: -10px;margin: 0px;height: 35.2px;"></button>
-                                <div class="dropdown-menu"><a class="dropdown-item" href="{% url 'jean:index' %}">Jeans</a><a class="dropdown-item" href="{% url 'shirt:index' %}">Shirts</a><a class="dropdown-item" href="{% url 'short:index' %}">Shorts</a><a class="dropdown-item" href="{% url 'tshirt:index' %}">T-shirts</a></div>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'home:categories' %}" style="padding: 0px;">
+                            <div class="btn-group dropdown"><a class="btn btn-primary text-uppercase" role="button" style="color: rgba(0, 0, 0, 0.55);background: transparent;padding: 8px;height: 35.2px;width: 104.925px;font-size: 12.8px;border-radius: 0px;border-color: rgba(0,0,0,0.55);border-top-color: transparent;border-right-color: transparent;border-bottom-color: transparent;border-left-color: transparent;font-weight: bold;" href="{% url 'home:categories' %}"><strong>Categories</strong></a><button class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false" type="button" style="background: rgb(255,255,255);color: rgba(0,0,0,0.55);border-color: rgba(0,0,0,0);padding: -10px;margin: 0px;height: 35.2px;"></button>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="{% url 'jean:index' %}">Jeans</a>
+                                    <a class="dropdown-item" href="{% url 'shirt:index' %}">Shirts</a>
+                                    <a class="dropdown-item" href="{% url 'short:index' %}">Shorts</a>
+                                    <a class="dropdown-item" href="{% url 'tshirt:index' %}">T-shirts</a>
+                                </div>
                             </div>
-                        </a></li>
+                        </a>
+                    </li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'home:gallery' %}" style="color: rgba(0, 0, 0, 0.55);font-weight: bold;">Gallery</a></li>
                     <li class="nav-item"><a class="nav-link active" href="{% url 'cart:index' %}" style="color: rgba(0, 0, 0, 0.55);font-weight: bold;">Cart</a></li>
                     <li class="nav-item"><a class="nav-link" href="login.html" style="font-weight: bold;">Login</a></li>

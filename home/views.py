@@ -9,3 +9,6 @@ def all(request):
 
 def gallery(request):
     return render(request, 'home/gallery.html')
+
+def categories(request):
+    return render(request, 'home/categories.html')
