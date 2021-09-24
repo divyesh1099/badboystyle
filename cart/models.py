@@ -8,6 +8,7 @@ class Item(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
     stock = models.PositiveIntegerField()
     available = models.BooleanField(default=True, verbose_name="available")
+    discount = models.PositiveBigIntegerField()
     quantity = models.PositiveBigIntegerField()
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
