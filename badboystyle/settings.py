@@ -87,6 +87,8 @@ DATABASES = {
     }
 }
 
+# Auth model added manually
+AUTH_USER_MODEL = 'home.User'
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators

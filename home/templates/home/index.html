@@ -9,6 +9,21 @@ Badboystyle
 <!-- <h1>Badboy Style</h1> -->
 <!-- <img src="{% static 'home/logo.png' %}" alt="" height="100px" width="100px"> -->
 <main class="page landing-page">
+    {% if success %}
+    <div class="container">
+        <div class="alert alert-success" role="alert">{{ success }}</div>
+    </div>
+    {% endif %}
+    {% if error %}
+    <div class="container">
+        <div class="alert alert-danger" role="alert">{{ error }}</div>
+    </div>
+    {% endif %}
+    {% if message %}
+    <div class="container">
+        <div class="alert alert-primary" role="alert">{{ message }}</div>
+    </div>
+    {% endif %}
     <section class="clean-block slider dark">
         <div class="container">
             <div class="carousel slide" data-bs-ride="carousel" id="carousel-1">
