@@ -1,10 +1,10 @@
 from django.contrib.auth import login, authenticate, logout
-from django.shortcuts import render, redirect
-from django.urls import reverse
+from django.shortcuts import render
 from django.db import IntegrityError
-from django.http import HttpResponse, HttpResponseRedirect
-from django.contrib.auth.decorators import user_passes_test
 from .models import *
+from django.contrib.auth.models import Group
+
+customer_group = Group.objects.get(name='Customer')
 
 # Create your views here.
 def index(request):
@@ -57,9 +57,11 @@ def my_signup(request):
 
         # Attempt to create new user
         try:
-            user = User.objects.create_superuser(username, email, password)
+            user = User.objects.create_user(username, email, password)
             user.set_password(password)
             user.is_active=True
+            user.is_staff=True
+            customer_group.user_set.add(user)
             user.save()
         except IntegrityError:
             print("Error")
