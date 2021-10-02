@@ -14,7 +14,18 @@ Categories
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna, dignissim nec auctor in, mattis vitae leo.</p>
             </div>
             <div class="block-content">
+                {% for category in categories %}
                 <div class="clean-blog-post">
+                    <div class="row">   
+                        <div class="col-lg-5 ml-auto"><img class="rounded myImage" src="{{ category.image.url }}"></div>
+                        <div class="col-lg-7">
+                            <h3>{{ category.name }}</h3>
+                            <p>{{ category.description }}</p><button class="btn btn-outline-primary btn-sm" type="button">See All</button>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                <!-- <div class="clean-blog-post">
                     <div class="row">
                         <div class="col-lg-5"><img class="rounded img-fluid" src="{% static 'assets/img/tech/image4.jpg' %}"></div>
                         <div class="col-lg-7">
@@ -53,7 +64,7 @@ Categories
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna, dignissim nec auctor in, mattis vitae leo. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna, dignissim nec auctor in, mattis vitae leo.</p><button class="btn btn-outline-primary btn-sm" type="button">Read More</button>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </section>

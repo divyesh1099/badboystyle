@@ -23,7 +23,11 @@ sizes = [
 
 class Type(models.Model):
     name = models.CharField(max_length = 100, blank=True, unique=True)
-
+    description = models.TextField()
+    image = models.ImageField(upload_to = 'types/')
+    created = models.DateTimeField(auto_now_add = True)
+    edited = models.DateTimeField(auto_now = True)
+    
     def __str__(self):
         return self.name
 
@@ -32,6 +36,8 @@ class Product(models.Model):
     type = models.ForeignKey(Type, on_delete=models.CASCADE)
     size = models.CharField(max_length=4, choices=sizes)
     image = models.ImageField(upload_to='products/%Y/%m/%d/')
+    image2 = models.ImageField(upload_to='products/%Y/%m/%d/', blank = True, null = True)
+    image3 = models.ImageField(upload_to='products/%Y/%m/%d/', blank = True, null = True)
     description = models.TextField()
     stock = models.PositiveBigIntegerField()
     created = models.DateTimeField(auto_now_add = True)

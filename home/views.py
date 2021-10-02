@@ -1,23 +1,43 @@
 from django.contrib.auth import login, authenticate, logout
 from django.shortcuts import render
 from django.db import IntegrityError
+from product.models import *
 from .models import *
 from django.contrib.auth.models import Group
 
-customer_group = Group.objects.get(name='Customer')
-
 # Create your views here.
 def index(request):
-    return render(request, 'home/index.html')
+    carousel_images = CarouselImage.objects.get()
+    featured_list = Featured.objects.all()
+    featured = list()
+    for feature in featured_list:
+        featured.append(Product.objects.get(name = feature))
+    context = {
+        'carousel_images': carousel_images,
+        'featured': featured
+        }
+    return render(request, 'home/index.html', context)
 
 def all(request):
-    return render(request, 'home/all.html')
+    products = Product.objects.all()
+    categories = Type.objects.all()
+    sizes = ['36','38','40','42','44','46','48','50','S','M','L','XL','XXL','XXXL']
+    context = {
+        "products": products,
+        "categories": categories,
+        "sizes":sizes,
+    }
+    return render(request, 'home/all.html', context)
 
 def gallery(request):
     return render(request, 'home/gallery.html')
 
 def categories(request):
-    return render(request, 'home/categories.html')
+    categories = Type.objects.all()
+    context = {
+        'categories': categories,
+    }
+    return render(request, 'home/categories.html', context)
 
 def my_login(request):
     if request.method == "POST":
@@ -43,6 +63,7 @@ def my_logout(request):
     return render(request, 'home/index.html', {'success': "Logged Out Successfully"})
 
 def my_signup(request):
+    customer_group = Group.objects.get(name='Customer')
     if request.method == "POST":
         username = request.POST["username"]
         email = request.POST["email"]
