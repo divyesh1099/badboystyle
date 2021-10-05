@@ -6,3 +6,4 @@ from .models import *
 admin.site.register(User)
 admin.site.register(CarouselImage)
 admin.site.register(Featured)
+admin.site.register(Gallery)

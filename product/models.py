@@ -33,7 +33,7 @@ class Type(models.Model):
 
 class Product(models.Model):
     name = models.CharField(max_length=1000, unique=True)
-    type = models.ForeignKey(Type, on_delete=models.CASCADE)
+    type = models.ForeignKey(Type, on_delete=models.CASCADE, related_name="type_of_product")
     size = models.CharField(max_length=4, choices=sizes)
     image = models.ImageField(upload_to='products/%Y/%m/%d/')
     image2 = models.ImageField(upload_to='products/%Y/%m/%d/', blank = True, null = True)

@@ -15,3 +15,6 @@ class Featured(models.Model):
     
     def __str__(self):
         return self.product.name
+
+class Gallery(Featured):
+    pass

@@ -38,13 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'cart',
-    # 'formal',
     'home',
-    # 'jean',
     'product',
-    # 'shirt',
-    # 'short',
-    # 'tshirt',
 ]
 
 MIDDLEWARE = [
@@ -70,6 +65,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'home.context_processors.get_categories',
             ],
         },
     },
@@ -135,10 +131,12 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Static
-STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-    BASE_DIR/'static',
-]
+if DEBUG:
+    STATICFILES_DIRS = [
+        os.path.join(BASE_DIR, 'static')
+    ]
+else:
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # Media 
 MEDIA_URL = '/media/'

@@ -25,13 +25,13 @@ Cart
                                     </div>
                                     <div class="col-md-5 product-info"><a class="product-name" href="{% url 'product:index' item.name %}">{{ item.name }}</a>
                                         <div class="product-specs">
-                                            <div><span>Display:&nbsp;</span><span class="value">{{ item.description }}</span></div>
-                                            <div><span>RAM:&nbsp;</span><span class="value">4GB</span></div>
-                                            <div><span>Memory:&nbsp;</span><span class="value">32GB</span></div>
+                                            <div><span>Description:&nbsp;</span><span class="value">{{ item.description|truncatewords:60 }}</span></div>
+                                            <!-- <div><span>RAM:&nbsp;</span><span class="value">4GB</span></div> -->
+                                            <!-- <div><span>Memory:&nbsp;</span><span class="value">32GB</span></div> -->
                                         </div>
                                     </div>
-                                    <div class="col-6 col-md-2 quantity"><label class="form-label d-none d-md-block" for="quantity">Quantity</label><input type="number" id="number" class="form-control quantity-input" value="{{ item.quantity }}"></div>
-                                    <div class="col-6 col-md-2 price"><span>{{ item.price }}$</span></div>
+                                    <div class="col-6 col-md-2 quantity"><label class="form-label d-none d-md-block" for="quantity">Quantity</label><input type="number" min="1" value="1" required class="form-control quantity-input my_quantity"></div>
+                                    <div class="col-6 col-md-2 price my_price"><span>{{ item.price }}$</span></div>
                                 </div>
                             </div>
                             {% endfor %}
@@ -40,10 +40,10 @@ Cart
                     <div class="col-md-12 col-lg-4">
                         <div class="summary">
                             <h3>Summary</h3>
-                            <h4><span class="text">Subtotal</span><span class="price">$360</span></h4>
-                            <h4><span class="text">Discount</span><span class="price">$0</span></h4>
-                            <h4><span class="text">Shipping</span><span class="price">$0</span></h4>
-                            <h4><span class="text">Total</span><span class="price">$360</span></h4><button class="btn btn-primary btn-lg d-block w-100" type="button">Checkout</button>
+                            <h4><span class="text">Subtotal</span><span class="price" id="my_subtotal">$360</span></h4>
+                            <h4><span class="text">Discount</span><span class="price" id="my_discount">$0</span></h4>
+                            <h4><span class="text">Shipping</span><span class="price" id="my_shipping">$0</span></h4>
+                            <h4><span class="text">Total</span><span class="price" id="my_total">$360</span></h4><button class="btn btn-primary btn-lg d-block w-100" type="button">Checkout</button>
                         </div>
                     </div>
                 </div>

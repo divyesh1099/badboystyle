@@ -20,7 +20,7 @@ Categories
                         <div class="col-lg-5 ml-auto"><img class="rounded myImage" src="{{ category.image.url }}"></div>
                         <div class="col-lg-7">
                             <h3>{{ category.name }}</h3>
-                            <p>{{ category.description }}</p><button class="btn btn-outline-primary btn-sm" type="button">See All</button>
+                            <p>{{ category.description }}</p><a href="{% url 'home:category' category.name %}"><button class="btn btn-outline-primary btn-sm" type="button">See All</button></a>
                         </div>
                     </div>
                 </div>

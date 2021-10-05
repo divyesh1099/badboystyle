@@ -4,6 +4,7 @@ from django.db import IntegrityError
 from product.models import *
 from .models import *
 from django.contrib.auth.models import Group
+from django.shortcuts import get_object_or_404
 
 # Create your views here.
 def index(request):
@@ -30,7 +31,14 @@ def all(request):
     return render(request, 'home/all.html', context)
 
 def gallery(request):
-    return render(request, 'home/gallery.html')
+    gallery_list = Gallery.objects.all()
+    gallery = list()
+    for gallerie in gallery_list:
+        gallery.append(Product.objects.get(name = gallerie))
+    context = {
+        'gallery': gallery
+        }
+    return render(request, 'home/gallery.html', context)
 
 def categories(request):
     categories = Type.objects.all()
@@ -38,6 +46,15 @@ def categories(request):
         'categories': categories,
     }
     return render(request, 'home/categories.html', context)
+
+def category(request, category):
+    categorie = get_object_or_404(Type, name = category)
+    products = Product.objects.filter(type = categorie.id)
+    context = {
+        'category': categorie,
+        'products': products,
+    }
+    return render(request, 'home/category.html', context)
 
 def my_login(request):
     if request.method == "POST":

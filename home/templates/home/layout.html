@@ -47,7 +47,7 @@
                                 </button>
                                 <div class="dropdown-menu">
                                     {% for category in categories %}
-                                    <a class="dropdown-item" href="#">{{ category }}</a>
+                                    <a class="dropdown-item" href="{% url 'home:category' category %}">{{ category }}</a>
                                     {% endfor %}
                                 </div>
                                 <!-- <a class="dropdown-item" href="#">Jeans</a> -->
@@ -112,6 +112,8 @@
     <script src="{% static 'assets/js/vanilla-zoom.js' %}"></script>
     <script src="{% static 'assets/js/theme.js' %}"></script>
     <script src="{% static 'assets/js/my_js.js' %}"></script>
+    <script src="{% static 'assets/js/cart.js' %}"></script>
+
     <!-- Bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
     <!-- Bootstrap -->
