@@ -22,12 +22,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('home.urls')),
     path('cart/', include('cart.urls')),
-    # path('formal/', include('formal.urls')),
-    # path('jean/', include('jean.urls')),
     path('product/', include('product.urls')),
-    # path('shirt/', include('shirt.urls')),
-    # path('short/', include('short.urls')),
-    # path('tshirt/', include('tshirt.urls')),
 ]+static(settings.STATIC_URL, docoment_root=settings.STATIC_ROOT)
 if settings.DEBUG:
     urlpatterns+=static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

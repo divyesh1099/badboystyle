@@ -3,7 +3,6 @@ from .models import *
 # Create your views here.
 def index(request, name):
     product = Product.objects.get(name = name)
-    print(product)
     context = {
         "product": product,
     }

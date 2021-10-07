@@ -1,3 +1,4 @@
+from django.conf.urls import url
 from django.contrib.auth import login, authenticate, logout
 from django.shortcuts import render
 from django.db import IntegrityError
@@ -5,6 +6,7 @@ from product.models import *
 from .models import *
 from django.contrib.auth.models import Group
 from django.shortcuts import get_object_or_404
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def index(request):
@@ -110,3 +112,11 @@ def my_signup(request):
         return render(request, 'home/index.html', {"success": "Logged In Successfully"})
     else:
         return render(request, "home/signup.html")
+
+@login_required
+def viewprofile(request):
+    return render(request, 'home/view_profile.html')
+
+@login_required
+def editprofile(request):
+    return render(request, 'home/edit_profile.html')

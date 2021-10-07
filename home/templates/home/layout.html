@@ -59,7 +59,7 @@
                     <li class="nav-item"><a class="nav-link active" href="{% url 'cart:index' %}" style="color: rgba(0, 0, 0, 0.55);font-weight: bold;">Cart</a></li>
                     {% if user.is_authenticated %}
                     <li class="nav-item"><a class="nav-link" href="{% url 'home:logout' %}" style="font-weight: bold;">Logout</a></li>
-                    <div class="container" style="color: rgba(0, 0, 0, 0.55);">{{ user.username }}<button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+                    <a href="{% url 'home:viewprofile' %}" style="color: rgba(0, 0, 0, 0.55);text-decoration: none;"><div>{{ user.username }}<button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button></a>
                     {% else %}
                     <li class="nav-item"><a class="nav-link" href="{% url 'home:login' %}" style="font-weight: bold;">Login</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'home:signup' %}" style="font-weight: bold;">Sign Up</a></li>
@@ -113,6 +113,7 @@
     <script src="{% static 'assets/js/theme.js' %}"></script>
     <script src="{% static 'assets/js/my_js.js' %}"></script>
     <script src="{% static 'assets/js/cart.js' %}"></script>
+    <script src="{% static 'assets/js/tinyInject.js' %}"></script>
 
     <!-- Bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
