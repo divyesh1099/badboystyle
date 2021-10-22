@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from product.models import *
+from product.models import Product
 # Create your models here.
 class User(AbstractUser):
     pass

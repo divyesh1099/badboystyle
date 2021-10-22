@@ -5,7 +5,6 @@ Edit Profile
 {% endblock %}
 
 {% block body %}
-{% if user.is_authenticated %}
     <div id="wrapper" class="mt-5">
         <div class="d-flex flex-column" id="content-wrapper">
             <div id="content">
@@ -14,9 +13,11 @@ Edit Profile
                     <div class="row mb-3">
                         <div class="col-lg-4">
                             <div class="card mb-3">
-                                <div class="card-body text-center shadow"><img class="rounded-circle mb-3 mt-4" src="{{ user.userprofile.profile_picture.url }}" width="160" height="160">
-                                    <div class="mb-3"><button class="btn btn-primary btn-sm" type="button">Change Photo</button></div>
-                                </div>
+                                <form method="POST" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    <div class="card-body text-center shadow"><img class="rounded-circle mb-3 mt-4" src="{{ user.userprofile.profile_picture.url }}" width="160" height="160">
+                                        <div class="mb-3 btn btn-primary btn-sm"><input type="file" name="profile_picture"></div>
+                                    </div>
                             </div>
                         </div>
                         <div class="col-lg-8">
@@ -57,38 +58,38 @@ Edit Profile
                                             <p class="text-primary m-0 fw-bold">User Settings</p>
                                         </div>
                                         <div class="card-body">
-                                            <form>
+                                        
                                                 <div class="row">
                                                     <div class="col">
-                                                        <div class="mb-3"><label class="form-label" for="username"><strong>Username</strong></label><input class="form-control" type="text" id="username" placeholder="user.name" name="username"></div>
+                                                        <div class="mb-3"><label class="form-label" for="username"><strong>Username</strong></label><input class="form-control" type="text" id="username" value="{{ user.username }}" placeholder="user.name" name="username"></div>
                                                     </div>
                                                     <div class="col">
-                                                        <div class="mb-3"><label class="form-label" for="email"><strong>Email Address</strong></label><input class="form-control" type="email" id="email" placeholder="user@example.com" name="email"></div>
+                                                        <div class="mb-3"><label class="form-label" for="email"><strong>Email Address</strong></label><input class="form-control" type="email" id="email" value="{{ user.email }}" placeholder="user@example.com" name="email"></div>
                                                     </div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col">
-                                                        <div class="mb-3"><label class="form-label" for="first_name"><strong>First Name</strong></label><input class="form-control" type="text" id="first_name" placeholder="John" name="first_name"></div>
+                                                        <div class="mb-3"><label class="form-label" for="first_name"><strong>First Name</strong></label><input class="form-control" type="text" id="first_name" value="{{ user.first_name }}" placeholder="John" name="first_name"></div>
                                                     </div>
                                                     <div class="col">
-                                                        <div class="mb-3"><label class="form-label" for="last_name"><strong>Last Name</strong></label><input class="form-control" type="text" id="last_name" placeholder="Doe" name="last_name"></div>
+                                                        <div class="mb-3"><label class="form-label" for="last_name"><strong>Last Name</strong></label><input class="form-control" type="text" id="last_name" value="{{ user.last_name }}" placeholder="Doe" name="last_name"></div>
                                                     </div>
-                                                <div class="mb-3"><label class="form-label" for="address"><strong>Address</strong></label><input class="form-control" type="text" id="address" placeholder="Sunset Blvd, 38" name="address"></div>
+                                                <div class="mb-3"><label class="form-label" for="address"><strong>Address</strong></label><input class="form-control" type="text" id="address" value="{{ user.userprofile.address }}" placeholder="Sunset Blvd, 38" name="address"></div>
                                                 <div class="row">
                                                     <div class="col">
-                                                        <div class="mb-3"><label class="form-label" for="city"><strong>City</strong></label><input class="form-control" type="text" id="city" placeholder="Navi Mumbai" name="city"></div>
+                                                        <div class="mb-3"><label class="form-label" for="city"><strong>City</strong></label><input class="form-control" type="text" id="city" value="{{ user.userprofile.city }}" placeholder="Navi Mumbai" name="city"></div>
                                                     </div>
                                                     <div class="col">
-                                                        <div class="mb-3"><label class="form-label" for="country"><strong>Country</strong></label><input class="form-control" type="text" id="country" placeholder="India" name="country"></div>
+                                                        <div class="mb-3"><label class="form-label" for="country"><strong>Country</strong></label><input class="form-control" type="text" id="country" value="{{ user.userprofile.country }}" placeholder="India" name="country"></div>
                                                     </div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col">
                                                         <div class="mb-3"><label class="form-label" for="gender"><strong>Gender</strong></label>
                                                             <!-- <input class="form-control" type="text" id="gender" placeholder="F" name="gender"> -->
-                                                            <select id="gender" class="form-control">
-                                                                <option value="male">Female</option>
-                                                                <option value="female">Male</option>
+                                                            <select id="gender" name="gender" class="form-control">
+                                                                <option value="female">Female</option>
+                                                                <option value="male">Male</option>
                                                             </select>
                                                         </div>
                                                     </div>
@@ -97,7 +98,10 @@ Edit Profile
                                                     </div>
                                                 </div>
                                                 </div>
-                                                <div class="mb-3"><button class="btn btn-success btn-lg" type="submit">Save Settings</button></div>
+                                                <div class="row mb-3 justify-content-between">                                                    
+                                                    <button class="col-lg-3 m-2 btn btn-success btn-md" type="submit">Save Settings</button>
+                                                    <a class="col-lg-3 m-2 btn btn-danger btn-md" href="#">Change Password</a>
+                                                </div>
                                             </form>
                                         </div>
                                     </div>
@@ -128,5 +132,4 @@ Edit Profile
             </div>
         </div>
     </div>
-{% endif %}
 {% endblock %}
