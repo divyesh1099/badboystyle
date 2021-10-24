@@ -1,8 +1,11 @@
 from django.shortcuts import render
 from .models import *
 from product.models import *
+from django.contrib.auth.decorators import login_required
+
 # Create your views here.
-# print(items)
+
+@login_required
 def index(request):
     items_list = Item.objects.all()
     items = list()

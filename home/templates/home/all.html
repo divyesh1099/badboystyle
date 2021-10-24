@@ -72,10 +72,10 @@ All
                     <div class="col-md-9">
                         <div class="products">
                             <div class="row g-0">
-                                {% for product in products %}
+                                {% for product in products.object_list %}
                                 <div class="col-12 col-md-6 col-lg-4">
                                     <div class="clean-product-item">
-                                        <div class="image"><a href="#"><img class="img-fluid d-block mx-auto" src="{{ product.image.url }}"></a></div>
+                                        <div class="image"><a href="{% url 'product:index' product.name %}"><img class="img-fluid d-block mx-auto" src="{{ product.image.url }}"></a></div>
                                         <div class="product-name"><a href="{% url 'product:index' product.name %}">{{ product.name }}</a></div>
                                         <div class="about">
                                             <div class="rating"><img src="{% static 'assets/img/star.svg' %}"><img src="{% static 'assets/img/star.svg' %}"><img src="{% static 'assets/img/star.svg' %}"><img src="{% static 'assets/img/star-half-empty.svg' %}"><img src="{% static 'assets/img/star-empty.svg' %}"></div>
@@ -112,13 +112,30 @@ All
                                 </div> -->
                             </div>
                             <nav>
-                                <ul class="pagination">
+                                <!-- <ul class="pagination">
                                     <li class="page-item disabled"><a class="page-link" href="#" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
                                     <li class="page-item active"><a class="page-link" href="#">1</a></li>
                                     <li class="page-item"><a class="page-link" href="#">2</a></li>
                                     <li class="page-item"><a class="page-link" href="#">3</a></li>
                                     <li class="page-item"><a class="page-link" href="#" aria-label="Next"><span aria-hidden="true">»</span></a></li>
-                                </ul>
+                                </ul> -->
+                                <div class="pagination">
+                                    <ul class="pagination">
+                                        {% if products.has_previous %}
+                                        <li class="page-item disabled"><a class="page-link" href="?page={{ products.previous_page_number }}" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
+                                        {% endif %}
+                                        {% for pg in products.paginator.page_range %}
+                                            {% if products.number == pg %}
+                                                <li class="page-item active"><a class="page-link" href="?page={{ pg }}">{{ pg }}</a></li>
+                                            {% else %}
+                                                <li class="page-item"><a class="page-link" href="?page={{ pg }}">{{ pg }}</a></li>
+                                            {% endif %}
+                                        {% endfor %}
+                                        {% if products.has_next %}
+                                        <li class="page-item disabled"><a class="page-link" href="?page={{ products.next_page_number }}" aria-label="Next"><span aria-hidden="true">»</span></a></li>
+                                        {% endif %}
+                                    </ul>
+                                </div>
                             </nav>
                         </div>
                     </div>

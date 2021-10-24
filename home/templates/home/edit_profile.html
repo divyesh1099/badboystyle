@@ -1,5 +1,5 @@
 {% extends 'home/layout.html' %}
-
+{% load static %}
 {% block title %}
 Edit Profile
 {% endblock %}
@@ -13,11 +13,14 @@ Edit Profile
                     <div class="row mb-3">
                         <div class="col-lg-4">
                             <div class="card mb-3">
-                                <form method="POST" enctype="multipart/form-data">
-                                    {% csrf_token %}
-                                    <div class="card-body text-center shadow"><img class="rounded-circle mb-3 mt-4" src="{{ user.userprofile.profile_picture.url }}" width="160" height="160">
-                                        <div class="mb-3 btn btn-primary btn-sm"><input type="file" name="profile_picture"></div>
-                                    </div>
+                                {% if user.userprofile.profile_picture.url %}
+                                <div class="card-body text-center shadow"><img class="rounded-circle mb-3 mt-4" src="{{ user.userprofile.profile_picture.url }}" width="160" height="160">
+                                {% else %}
+                                <div class="card-body text-center shadow"><img class="rounded-circle mb-3 mt-4" src="{% static 'assets/img/default_user_profile_image.jpg' %}" width="160" height="160">
+                                    <!-- <div class="mb-3 btn btn-info btn-sm"><a href="{% url 'home:editprofilepic' %}" >Change Picture</a></div> -->
+                                    <a class="col-lg-3 btn btn-warning btn-md" href="{% url 'home:editprofilepic' %}">Change Picture</a>
+                                </div>
+                                {% endif %}
                             </div>
                         </div>
                         <div class="col-lg-8">
@@ -58,7 +61,7 @@ Edit Profile
                                             <p class="text-primary m-0 fw-bold">User Settings</p>
                                         </div>
                                         <div class="card-body">
-                                        
+                                            <form method="post">
                                                 <div class="row">
                                                     <div class="col">
                                                         <div class="mb-3"><label class="form-label" for="username"><strong>Username</strong></label><input class="form-control" type="text" id="username" value="{{ user.username }}" placeholder="user.name" name="username"></div>
@@ -100,7 +103,7 @@ Edit Profile
                                                 </div>
                                                 <div class="row mb-3 justify-content-between">                                                    
                                                     <button class="col-lg-3 m-2 btn btn-success btn-md" type="submit">Save Settings</button>
-                                                    <a class="col-lg-3 m-2 btn btn-danger btn-md" href="#">Change Password</a>
+                                                    <a class="col-lg-3 m-2 btn btn-danger btn-md" href="{% url 'home:editprofilepassword' %}">Change Password</a>
                                                 </div>
                                             </form>
                                         </div>

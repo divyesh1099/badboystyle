@@ -1,5 +1,5 @@
 {% extends 'home/layout.html' %}
-
+{% load static %}
 {% block title %}
 View Profile
 {% endblock %}
@@ -20,10 +20,25 @@ View Profile
         </div>
         <div class="row justify-content-center" style="margin-right: 0px;margin-left: 0px;">
             <div class="col-sm-6 col-lg-4" style="padding-right: 0px;padding-left: 0px;">
+                {% if user.userprofile.profile_picture.url %}
                 <div class="card clean-card text-center"><img class="card-img-top w-100 d-block" style="max-height: fit-content;" src="{{ user.userprofile.profile_picture.url }}">
+                {% else %}
+                <div class="card clean-card text-center"><img class="card-img-top w-100 d-block" style="max-height: fit-content;" src="{% static 'assets/img/default_user_profile_image.jpg' %}">
+                {% endif %}
                     <div class="card-body info">
                         <div class="row" style="margin-top: -24px;">
                             <div class="col-md-12" style="margin-top: 22px;">
+                                {% if user.username %}
+                                <div class="row">
+                                    <div class="col">
+                                        <p class="labels"><strong>Username</strong></p>
+                                    </div>
+                                    <div class="col">
+                                        <p class="labels">{{ user.username }}</p>
+                                    </div>
+                                </div>
+                                {% endif %}
+                                {% if user.first_name or user.last_name %}
                                 <div class="row">
                                     <div class="col">
                                         <p class="labels"><strong>Name</strong></p>
@@ -32,6 +47,8 @@ View Profile
                                         <p class="labels">{{ user.first_name }} {{ user.last_name }}</p>
                                     </div>
                                 </div>
+                                {% endif %}
+                                {% if user.userprofile.contact %}
                                 <div class="row">
                                     <div class="col">
                                         <p class="labels"><strong>Contact</strong></p>
@@ -40,6 +57,7 @@ View Profile
                                         <p class="labels">{{ user.userprofile.contact }}</p>
                                     </div>
                                 </div>
+                                {% endif %}
                                 <div class="row">
                                     <div class="col">
                                         <p class="labels"><strong>Email Id</strong></p>

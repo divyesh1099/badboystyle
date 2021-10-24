@@ -11,5 +11,7 @@ urlpatterns = [
     path('categories', views.categories, name = 'categories'),
     path('profile/view/', views.viewprofile, name = 'viewprofile'),
     path('profile/edit/', views.editprofile, name = 'editprofile'),
+    path('profile/edit/profile_pic', views.editprofilepic, name = 'editprofilepic'),
+    path('profile/edit/change_password', views.editprofilepassword, name = 'editprofilepassword'),
     path('<str:category>', views.category, name = 'category'),
     ]

@@ -1,12 +1,13 @@
 from django.conf.urls import url
 from django.contrib.auth import login, authenticate, logout
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.db import IntegrityError
 from product.models import *
 from .models import *
 from django.contrib.auth.models import Group
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import EmptyPage, InvalidPage, Paginator
 
 # Create your views here.
 def index(request):
@@ -25,6 +26,16 @@ def all(request):
     products = Product.objects.all()
     categories = Type.objects.all()
     sizes = ['36','38','40','42','44','46','48','50','S','M','L','XL','XXL','XXXL']
+    paginator = Paginator(products, 10)
+    try:
+        page = int(request.GET.get('page', '1'))
+    except:
+        page = 1
+    try:
+        products = paginator.page(page)
+    except(EmptyPage, InvalidPage):
+        products = paginator.page(paginator.num_pages)
+
     context = {
         "products": products,
         "categories": categories,
@@ -69,7 +80,7 @@ def my_login(request):
         # Check if authentication successful
         if user is not None:
             login(request, user)
-            return render(request, 'home/index.html', {'success': "Logged in Successfully"})
+            return redirect('/')
         else:
             return render(request, "home/login.html", {
                 "error": "Invalid username and/or password."
@@ -79,10 +90,11 @@ def my_login(request):
 
 def my_logout(request):
     logout(request)
-    return render(request, 'home/index.html', {'success': "Logged Out Successfully"})
+    return redirect("/")
 
 def my_signup(request):
-    customer_group = Group.objects.get_or_create(name='Customer')
+    customer_group = Group.objects.get_or_create(name='Customer')[0]
+    print(customer_group)
     if request.method == "POST":
         username = request.POST["username"]
         email = request.POST["email"]
@@ -108,7 +120,7 @@ def my_signup(request):
                 "error": "Username already taken."
             })
         login(request, user)
-        return render(request, 'home/index.html', {"success": "Logged In Successfully"})
+        return redirect("1")
     else:
         return render(request, "home/signup.html")
 
@@ -162,6 +174,20 @@ def editprofile(request):
             return render(request, "home/edit_profile.html", {
                 "error": e
             })
-            pass
         pass
     return render(request, 'home/edit_profile.html')
+
+@login_required
+def editprofilepic(request):
+    user = request.user
+    if request.method == "POST":
+        if 'profile_picture' in request.FILES:
+            profile_picture = request.FILES['profile_picture']
+        else:
+            profile_picture = user.userprofile.contact
+    return render(request, "home/editprofilepic.html")
+
+@login_required
+def editprofilepassword(request):
+    user = request.user
+    return render(request, "home/editprofilepassword.html")
