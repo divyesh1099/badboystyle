@@ -120,7 +120,7 @@ def my_signup(request):
                 "error": "Username already taken."
             })
         login(request, user)
-        return redirect("1")
+        return redirect("/")
     else:
         return render(request, "home/signup.html")
 

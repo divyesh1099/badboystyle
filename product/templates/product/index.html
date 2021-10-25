@@ -30,11 +30,18 @@ Product
                         </div>
                         <div class="col-md-6">
                             <div class="info">
-                                <h3>{{ product.name }}</h3>
-                                <div class="rating"><img src="{% static 'assets/img/star.svg' %}"><img src="{% static 'assets/img/star.svg' %}"><img src="{% static 'assets/img/star.svg' %}"><img src="{% static 'assets/img/star-half-empty.svg' %}"><img src="{% static 'assets/img/star-empty.svg' %}"></div>
-                                <div class="price">
-                                    <h3>{{ product.price }}₹</h3>
-                                </div><button class="btn btn-primary" type="button"><i class="icon-basket"></i>Add to Cart</button>
+                                <form action="{% url 'cart:index' %}" method="post">
+                                    {% csrf_token %}
+                                    <h3>{{ product.name }}</h3>
+                                    <div class="rating"><img src="{% static 'assets/img/star.svg' %}"><img src="{% static 'assets/img/star.svg' %}"><img src="{% static 'assets/img/star.svg' %}"><img src="{% static 'assets/img/star-half-empty.svg' %}"><img src="{% static 'assets/img/star-empty.svg' %}"></div>
+                                    <div class="price">
+                                        <h3>{{ product.price }}₹</h3>
+                                    </div>
+                                    <input type="text" name="cart_product" id="cart_product" value="{{ product.name }}" hidden>
+                                    <button class="btn btn-primary btn-lg m-1" type="submit" href="{% url 'cart:index' %}">
+                                        <i class="icon-basket"></i>Add to Cart
+                                    </button>
+                                </form>
                                 <div class="summary">
                                     <p>{{ product.description }}</p>
                                 </div>
