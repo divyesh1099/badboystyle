@@ -39,14 +39,16 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'cart',
     'home',
+    'offer',
     'product',
+    'users',
 ]
 
 # User Profile
-AUTH_PROFILE_MODULE = 'home.UserProfile'
-
+# ___None____
 # User Model
-AUTH_USER_MODEL = 'product.User'
+# ___None____
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -91,7 +93,8 @@ DATABASES = {
 }
 
 # Auth model added manually
-AUTH_USER_MODEL = 'home.User'
+# AUTH_USER_MODEL = 'home.User'
+# ____None_____
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators

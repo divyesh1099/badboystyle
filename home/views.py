@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect
 from django.db import IntegrityError
 from product.models import *
 from .models import *
+from users.models import *
 from django.contrib.auth.models import Group
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
@@ -94,7 +95,6 @@ def my_logout(request):
 
 def my_signup(request):
     customer_group = Group.objects.get_or_create(name='Customer')[0]
-    print(customer_group)
     if request.method == "POST":
         username = request.POST["username"]
         email = request.POST["email"]
@@ -124,70 +124,75 @@ def my_signup(request):
     else:
         return render(request, "home/signup.html")
 
-@login_required
-def viewprofile(request):
-    return render(request, 'home/view_profile.html')
+# @login_required
+# def viewprofile(request):
+#     return render(request, 'home/view_profile.html')
 
-@login_required
-def editprofile(request):
-    user = request.user
-    if request.method == "POST":
-        if 'profile_picture' in request.FILES:
-            profile_picture = request.FILES['profile_picture']
-        else:
-            profile_picture = user.userprofile.contact
-        if request.POST['username']:
-            username = request.POST['username']
-        if request.POST['email']:
-            email = request.POST['email']
-        if request.POST['first_name']:
-            first_name = request.POST['first_name']
-        if request.POST['last_name']:
-            last_name = request.POST['last_name']
-        if request.POST['address']:
-            address = request.POST['address']
-        else:
-            address = user.userprofile.address
-        if request.POST['city']:
-            city = request.POST['city']
-        else:
-            city = user.userprofile.city
-        if request.POST['country']:
-            country = request.POST['country']
-        else:
-            country = user.userprofile.country
-        if request.POST['gender']:
-            gender = request.POST['gender']
-        else:
-            gender = user.userprofile.gender
-        if request.POST['phonenumber']:
-            contact = request.POST['phonenumber']
-        else:
-            contact = user.contact
+# @login_required
+# def editprofile(request):
+#     user = request.user
+#     if request.method == "POST":
+#         if 'profile_picture' in request.FILES:
+#             profile_picture = request.FILES['profile_picture']
+#         else:
+#             profile_picture = user.userprofile.contact
+#         if request.POST['username']:
+#             username = request.POST['username']
+#         if request.POST['email']:
+#             email = request.POST['email']
+#         if request.POST['first_name']:
+#             first_name = request.POST['first_name']
+#         if request.POST['last_name']:
+#             last_name = request.POST['last_name']
+#         if request.POST['address']:
+#             address = request.POST['address']
+#         else:
+#             address = user.userprofile.address
+#         if request.POST['city']:
+#             city = request.POST['city']
+#         else:
+#             city = user.userprofile.city
+#         if request.POST['country']:
+#             country = request.POST['country']
+#         else:
+#             country = user.userprofile.country
+#         if request.POST['gender']:
+#             gender = request.POST['gender']
+#         else:
+#             gender = user.userprofile.gender
+#         if request.POST['phonenumber']:
+#             contact = request.POST['phonenumber']
+#         else:
+#             contact = user.contact
 
-        try:
-            updated_user = User.objects.update(username=username, email = email, first_name=first_name, last_name=last_name)
-            userprofile = UserProfile.objects.update(profile_picture=profile_picture, address = address, city = city, country = country, gender = gender, contact = contact)
-            updated_user.save()
-            userprofile.save()
-        except IntegrityError as e:
-            return render(request, "home/edit_profile.html", {
-                "error": e
-            })
-        pass
-    return render(request, 'home/edit_profile.html')
+#         try:
+#             updated_user = User.objects.update(username=username, email = email, first_name=first_name, last_name=last_name)
+#             # userprofile = UserProfile.objects.update(profile_picture=profile_picture, address = address, city = city, country = country, gender = gender, contact = contact)
+#             updated_user.save()
+#             # userprofile.save()
+#         except IntegrityError as e:
+#             return render(request, "home/edit_profile.html", {
+#                 "error": e
+#             })
+#         pass
+#     return render(request, 'home/edit_profile.html')
 
-@login_required
-def editprofilepic(request):
-    user = request.user
-    if request.method == "POST":
-        if 'profile_picture' in request.FILES:
-            profile_picture = request.FILES['profile_picture']
-        else:
-            profile_picture = user.userprofile.contact
-    return render(request, "home/editprofilepic.html")
+# @login_required
+# def editprofilepic(request):
+#     user = request.user
+#     if request.method == "POST":
+#         if 'profile_picture' in request.FILES:
+#             profile_picture = request.FILES['profile_picture']
+#         else:
+#             profile_picture = user.userprofile.contact
+#     return render(request, "home/editprofilepic.html")
 
-@login_required
-def editprofilepassword(request):
-    user = request.user
-    return render(request, "home/editprofilepassword.html")
+# @login_required
+# def editprofilepassword(request):
+#     user = request.user
+#     return render(request, "home/editprofilepassword.html")
+def contactus(request):
+    return render(request, 'home/contactus.html')
+
+def companyinformation(request):
+    return render(request, 'home/companyinformation.html')

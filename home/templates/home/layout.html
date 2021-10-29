@@ -32,7 +32,7 @@
     <!-- Header Icon -->
     <!-- Navbar -->
     <nav class="navbar navbar-light navbar-expand-lg fixed-top bg-white clean-navbar">
-        <div class="container"><a class="navbar-brand logo" href="{% url 'home:index' %}"><strong>Badboystyle</strong></a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+        <div class="container"><a class="navbar-brand logo" href="{% url 'home:index' %}"><img src="{% static 'assets/img/logo.png' %}" alt="" height="40" width="40"><strong>Badboystyle</strong></a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navcol-1">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link" href="{% url 'home:all' %}" style="color: rgba(0, 0, 0, 0.55);border-color: rgba(0, 0, 0, 0.55);border-top-color: rgba(0,;border-right-color: 0,;border-bottom-color: 0,;border-left-color: 0.55);font-weight: bold;">All</a></li>
@@ -59,11 +59,11 @@
                     {% if user.is_authenticated %}
                     <li class="nav-item"><a class="nav-link active" href="{% url 'cart:index' %}" style="color: rgba(0, 0, 0, 0.55);font-weight: bold;">Cart</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'home:logout' %}" style="font-weight: bold;">Logout</a></li>
-                    <a href="{% url 'home:viewprofile' %}" style="color: rgba(0, 0, 0, 0.55);text-decoration: none;"><div>{{ user.username }}</a>
+                    <a href="{% url 'users:index' %}" style="color: rgba(0, 0, 0, 0.55);text-decoration: none;"><div>{{ user.username }}</a>
                     {% else %}
                     <li class="nav-item"><a class="nav-link" href="{% url 'home:login' %}" style="font-weight: bold;">Login</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'home:signup' %}" style="font-weight: bold;">Sign Up</a></li>
-                    {% endif %}
+                    {% endif %}    
                 </ul>
             </div>
         </div>
@@ -79,15 +79,15 @@
                 <div class="col-sm-3">
                     <h5 class="text-start">Get started</h5>
                     <ul>
-                        <li class="text-start"><a href="index.html">Home</a></li>
+                        <li class="text-start"><a href="{% url 'home:index' %}">Home</a></li>
                         <li class="text-start"><a href="{% url 'home:signup' %}">Sign Up</a></li>
                     </ul>
                 </div>
                 <div class="col-sm-3">
                     <h5 class="text-start">About us</h5>
                     <ul>
-                        <li class="text-start"><a class="text-start" href="about-us.html">Company Information</a></li>
-                        <li class="text-start"><a href="contact-us.html">Contact us</a></li>
+                        <li class="text-start"><a class="text-start" href="{% url 'home:companyinformation' %}">Company Information</a></li>
+                        <li class="text-start"><a href="{% url 'home:contactus' %}">Contact us</a></li>
                     </ul>
                 </div>
                 <div class="col-sm-3">

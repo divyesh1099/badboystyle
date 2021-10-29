@@ -22,6 +22,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('home.urls')),
     path('cart/', include('cart.urls')),
+    path('offer/', include('offer.urls')),
+    path('users/', include('users.urls')),
     path('product/', include('product.urls')),
 ]+static(settings.STATIC_URL, docoment_root=settings.STATIC_ROOT)
 if settings.DEBUG:

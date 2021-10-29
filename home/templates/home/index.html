@@ -50,13 +50,22 @@ Badboystyle
             <div class="row justify-content-center">
                 {% for item in featured %}
                 <div class="col-sm-6 col-lg-4">
-                    <div class="card text-center clean-card"><img class="card-img-top w-100 d-block" src="{{ item.image.url }}">
+                    <div class="card text-center clean-card">
+                        <img class="card-img-top w-100 d-block" src="{{ item.image.url }}">
+                        <!-- Try  -->
+                        <div class="card-img-overlay">
+                            <div class="row d-flex justify-content-end">
+                                <div class="btn btn-lg btn-warning">OFFERRR !!!</div>                                
+                            </div>
+                          </div>
+                        <!-- Try  -->
                         <div class="card-body info">
                             <h4 class="card-title"><a href="{% url 'product:index' item.name %}">{{ item.name }}</a></h4>
                             <p class="card-text">{{ item.description|truncatewords:20 }}</p>
                         </div>
                     </div>
                 </div>
+
                 {% endfor %}
                 <!-- <div class="col-sm-6 col-lg-4">
                     <div class="card text-center clean-card"><img class="card-img-top w-100 d-block" src="{{ featured.p2.image.url }}">

@@ -1,0 +1,26 @@
+{% extends 'home/layout.html' %}
+{% load static %}
+{% block title %}
+Edit Profile
+{% endblock %}
+
+{% block body %}
+<!-- <h1>Edit Profile</h1>   -->
+<main class="page editprofilepage justify-content-center">
+    <div id="wrapper" class="mt-5">
+        <div class="d-flex flex-column" id="content-wrapper">
+            <div id="content">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <table>
+                    {{ form.as_table }}
+                    {{ profile_form.as_table }}
+                    </table>
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+
+{% endblock %}
