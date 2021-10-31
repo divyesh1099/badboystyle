@@ -30,7 +30,7 @@ Product
                         </div>
                         <div class="col-md-6">
                             <div class="info">
-                                <form action="{% url 'cart:index' %}" method="post">
+                                <form method="post">
                                     {% csrf_token %}
                                     <h3>{{ product.name }}</h3>
                                     <div class="rating"><img src="{% static 'assets/img/star.svg' %}"><img src="{% static 'assets/img/star.svg' %}"><img src="{% static 'assets/img/star.svg' %}"><img src="{% static 'assets/img/star-half-empty.svg' %}"><img src="{% static 'assets/img/star-empty.svg' %}"></div>
@@ -38,9 +38,16 @@ Product
                                         <h3>{{ product.price }}₹</h3>
                                     </div>
                                     <input type="text" name="cart_product" id="cart_product" value="{{ product.name }}" hidden>
-                                    <button class="btn btn-primary btn-lg m-1" type="submit" href="{% url 'cart:index' %}">
-                                        <i class="icon-basket"></i>Add to Cart
-                                    </button>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <p class="form-group">Quantity:<input type="number" name='quantity' min="1" placeholder="1" value="{{ product.product_of_item.quantity }}"></p>
+                                        </div>
+                                        <div class="col-6">
+                                            <button class="btn btn-primary btn-lg m-1" type="submit" href="{% url 'cart:index' %}">
+                                                <i class="icon-basket col-6"></i>Add to Cart
+                                            </button>
+                                        </div>
+                                    </div>
                                 </form>
                                 <div class="summary">
                                     <p>{{ product.description }}</p>

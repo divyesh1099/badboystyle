@@ -45,7 +45,7 @@ Badboystyle
         <div class="container">
             <div class="block-heading">
                 <h2 class="text-info">Featured</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate, repellat?</p>
+                <p>Get Ready to Get Amazed !!! Here's from some of our best collections</p>
             </div>
             <div class="row justify-content-center">
                 {% for item in featured %}
@@ -53,11 +53,13 @@ Badboystyle
                     <div class="card text-center clean-card">
                         <img class="card-img-top w-100 d-block" src="{{ item.image.url }}">
                         <!-- Try  -->
+                        <!-- {% if offer.discount %}
                         <div class="card-img-overlay">
                             <div class="row d-flex justify-content-end">
-                                <div class="btn btn-lg btn-warning">OFFERRR !!!</div>                                
+                                <a class="col-4 btn btn-lg btn-warning" href="{% url 'product:index' item.name %}">{{ offer.discount }}% OFF*</a>                                
                             </div>
                           </div>
+                        {% endif %} -->
                         <!-- Try  -->
                         <div class="card-body info">
                             <h4 class="card-title"><a href="{% url 'product:index' item.name %}">{{ item.name }}</a></h4>

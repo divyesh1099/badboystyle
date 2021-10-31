@@ -9,6 +9,9 @@ from django.contrib.auth.models import Group
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import EmptyPage, InvalidPage, Paginator
+from django.conf import settings
+from django.core.mail import send_mail
+
 
 # Create your views here.
 def index(request):
@@ -192,7 +195,26 @@ def my_signup(request):
 #     user = request.user
 #     return render(request, "home/editprofilepassword.html")
 def contactus(request):
+    if request.method == 'POST':
+        subject = request.POST['subject']
+        name = request.POST['name']
+        email = request.POST['email']
+        message = request.POST['message'] + "---from---" + name
+        email_from = settings.EMAIL_HOST_USER
+        recipient_list = [email, ]
+        try:
+            send_mail(subject, message, email_from, recipient_list)
+        except:
+            return render(request, 'home/contactus.html', {
+                'fail': "Failed, Try Again Later"
+            })
+        return render(request, 'home/contactus.html', {
+            'success': "Thanks For contacting us."
+        })
+
     return render(request, 'home/contactus.html')
 
 def companyinformation(request):
     return render(request, 'home/companyinformation.html')
+
+# def send_mail(request):

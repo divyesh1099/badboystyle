@@ -38,8 +38,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'cart',
+    # 'easy_maps',
     'home',
     'offer',
+    'payment',
     'product',
     'users',
 ]
@@ -49,7 +51,11 @@ INSTALLED_APPS = [
 # User Model
 # ___None____
 
+# Maps Configuration Manually Added
+EASY_MAPS_GOOGLE_KEY = ''
+EASY_MAPS_CENTER = ()
 
+# Middlewares
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -74,6 +80,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'home.context_processors.get_categories',
+                'home.context_processors.get_offers',
             ],
         },
     },
@@ -150,3 +157,11 @@ else:
 # Media 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+
+# Email Settings Done Manually
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = '123ss@ajenw.com'
+EMAIL_HOST_PASSWORD = 'ijfioqjw'

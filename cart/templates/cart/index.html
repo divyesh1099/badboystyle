@@ -21,17 +21,25 @@ Cart
                             <div class="product">
                                 <div class="row justify-content-center align-items-center">
                                     <div class="col-md-3">
-                                        <div class="product-image"><img class="img-fluid d-block mx-auto image" src="{{ item.image.url }}"></div>
+                                        <div class="product-image"><img class="img-fluid d-block mx-auto image" src="{{ item.name.image.url }}"></div>
                                     </div>
                                     <div class="col-md-5 product-info"><a class="product-name" href="{% url 'product:index' item.name %}">{{ item.name }}</a>
                                         <div class="product-specs">
-                                            <div><span>Description:&nbsp;</span><span class="value">{{ item.description|truncatewords:60 }}</span></div>
+                                            <div><span>Description:&nbsp;</span><span class="value">{{ item.name.description|truncatewords:60 }}</span></div>
                                             <!-- <div><span>RAM:&nbsp;</span><span class="value">4GB</span></div> -->
                                             <!-- <div><span>Memory:&nbsp;</span><span class="value">32GB</span></div> -->
                                         </div>
                                     </div>
-                                    <div class="col-6 col-md-2 quantity"><label class="form-label d-none d-md-block" for="quantity">Quantity</label><input type="number" min="1" value="1" required class="form-control quantity-input my_quantity"></div>
-                                    <div class="col-6 col-md-2 price my_price"><span>{{ item.price }}$</span></div>
+                                    <!-- <div class="col-6 col-md-2 quantity my_quantity"><label class="form-label d-none d-md-block" for="quantity">Quantity</label><input type="number" min="1" required class="form-control quantity-input"></div> -->
+                                    <div class="col-6 col-md-2"><label class="form-label d-none d-md-block" for="quantity">Quantity</label>
+                                        <div class="row">
+                                            <!-- <button class="plus-btn col-4" onclick="increase(e)" type="button" name="button" id="plus-btn">+</button> -->
+                                            <div class="col-6" ><a class="btn btn-md btn-warning" href="{% url 'product:index' item.name %}">Edit</a></div>
+                                            <div class="col-6"><p class="m-1">{{ item.quantity }}</p></div>
+                                            <!-- <button class="minus-btn col-4" type="button" name="button" id="minus-btn">-</button> -->
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-md-2 price my_price"><span>{{ item.name.price }}</span><span>₹</span></div>
                                 </div>
                             </div>
                             {% endfor %}
@@ -40,10 +48,10 @@ Cart
                     <div class="col-md-12 col-lg-4">
                         <div class="summary">
                             <h3>Summary</h3>
-                            <h4><span class="text">Subtotal</span><span class="price" id="my_subtotal">$360</span></h4>
-                            <h4><span class="text">Discount</span><span class="price" id="my_discount">$0</span></h4>
-                            <h4><span class="text">Shipping</span><span class="price" id="my_shipping">$0</span></h4>
-                            <h4><span class="text">Total</span><span class="price" id="my_total">$360</span></h4><button class="btn btn-primary btn-lg d-block w-100" type="button">Checkout</button>
+                            <h4><span class="text">Subtotal</span><span class="price" id="my_subtotal">₹{{ subtotal }}</span></h4>
+                            <h4><span class="text">Discount</span><span class="price" id="my_discount">₹{{ discount }}</span></h4>
+                            <h4><span class="text">Shipping</span><span class="price" id="my_shipping">₹{{ shipping }}</span></h4>
+                            <h4><span class="text">Total</span><span class="price" id="my_total">₹{{ total }}</span></h4><button class="btn btn-primary btn-lg d-block w-100" type="button">Checkout</button>
                         </div>
                     </div>
                 </div>
