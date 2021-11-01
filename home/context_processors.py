@@ -8,7 +8,7 @@ def get_categories(request):
     }
 
 def get_offers(request):
-    offer = Offer.objects.get()
+    offers = Offer.objects.all()
     return {
-        'offer': offer,
+        'offers': offers,
     }

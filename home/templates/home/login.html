@@ -16,7 +16,7 @@ Signup
         <div class="container">
             <div class="block-heading">
                 <h2 class="text-info">Log In</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna, dignissim nec auctor in, mattis vitae leo.</p>
+                <p>Login to get an amazing day ahead !!!</p>
             </div>
             <form method="POST" action="{% url 'home:login' %}">
                 {% csrf_token %}
@@ -25,6 +25,7 @@ Signup
                 <div class="mb-3">
                     <!-- <div class="form-check"><input class="form-check-input" type="checkbox" id="checkbox"><label class="form-check-label" for="checkbox">Remember me</label></div> -->
                 </div><button class="btn btn-primary" type="submit">Log In</button>
+                <p class="m-1 p-1">Not Registered yet ? <a href="{% url 'home:signup' %}">Sign Up</a></p>
             </form>
         </div>
     </section>

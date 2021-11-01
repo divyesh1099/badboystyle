@@ -5,7 +5,6 @@ Product
 {% endblock %}
 
 {% block body %}
-<!-- <h1>Product</h1> -->
 <main class="page product-page">
     <section class="clean-block clean-product dark">
         <div class="container">
@@ -40,13 +39,25 @@ Product
                                     <input type="text" name="cart_product" id="cart_product" value="{{ product.name }}" hidden>
                                     <div class="row">
                                         <div class="col-6">
+                                            {% if product.product_of_item.quantity %}
                                             <p class="form-group">Quantity:<input type="number" name='quantity' min="1" placeholder="1" value="{{ product.product_of_item.quantity }}"></p>
+                                            {% else %}
+                                            <p class="form-group">Quantity:<input type="number" name='quantity' min="1" placeholder="1" value="1"></p>
+                                            {% endif %}
                                         </div>
-                                        <div class="col-6">
+                                        {% if user.is_active %}
+                                        <div class="col-lg-6 col-md-12 col-sm-12">
                                             <button class="btn btn-primary btn-lg m-1" type="submit" href="{% url 'cart:index' %}">
                                                 <i class="icon-basket col-6"></i>Add to Cart
                                             </button>
                                         </div>
+                                        {% else %}
+                                        <div class="col-lg-6 col-md-12 col-sm-12">
+                                            <a class="btn btn-primary btn-lg m-1" href="{% url 'home:login' %}">
+                                                <i class="icon-basket col-6"></i>Add to cart
+                                            </a>
+                                        </div>
+                                        {% endif %}
                                     </div>
                                 </form>
                                 <div class="summary">

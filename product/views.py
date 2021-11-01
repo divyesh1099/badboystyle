@@ -11,10 +11,13 @@ def index(request, name):
         quantity = request.POST['quantity']
         new_product = Product.objects.get(name = cart_product)
         if new_product in Item.objects.all():
-            cart_item = Item.objects.create(name=new_product, quantity = quantity)
-            cart_item.save()
-        else:
             Item.objects.filter(name = new_product).update(quantity = quantity)
+        else:
+            try:
+                cart_item = Item.objects.update_or_create(name=new_product, defaults={'quantity': quantity})
+                cart_item[0].save()
+            except Exception as e:
+                print(e)
         return redirect('cart:index')
     else:
         context = {
@@ -22,10 +25,3 @@ def index(request, name):
             "related_products": related_products,
         }
         return render(request, 'product/index.html', context)
-
-# def add_to_cart(request):
-
-#     product = 
-#     new_product = Product.objects.get(name = product)
-#     new_item = Item.objects.create(product = new_product)
-#     new_item.save()

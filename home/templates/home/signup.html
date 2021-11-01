@@ -17,7 +17,7 @@ Signup
         <div class="container">
             <div class="block-heading">
                 <h2 class="text-info">Sign Up</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna, dignissim nec auctor in, mattis vitae leo.</p>
+                <p>Sign Up to get some of the best deals over the whole internet !!!</p>
             </div>
             <form method="POST">
                 {% csrf_token %}
@@ -26,6 +26,7 @@ Signup
                 <div class="mb-3"><label class="form-label" for="password1">Password</label><input class="form-control item" type="password" id="password1" name="password1"></div>
                 <div class="mb-3"><label class="form-label" for="password2">Re-Enter Password</label><input class="form-control item" type="password" id="password2" name="password2"></div>
                 <button class="btn btn-primary" type="submit">Sign Up</button>
+                <p class="m-1 p-1">Already Registered ? <a href="{% url 'home:login' %}">Login</a></p>
             </form>
         </div>
     </section>
