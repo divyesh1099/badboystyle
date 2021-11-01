@@ -7,17 +7,22 @@ Edit Profile
 {% block body %}
 <!-- <h1>Edit Profile</h1>   -->
 <main class="page editprofilepage justify-content-center">
-    <div id="wrapper" class="mt-5">
-        <div class="d-flex flex-column" id="content-wrapper">
-            <div id="content">
-                <form method="post" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <table>
-                    {{ form.as_table }}
-                    {{ profile_form.as_table }}
-                    </table>
-                    <button type="submit">Submit</button>
-                </form>
+    <div class="jumbotron">
+        <h1>Edit Profile</h1>
+        <div id="wrapper" class="mt-5 card">
+            <div class="d-flex flex-column m-1 p-1" id="content-wrapper">
+                <div class="container d-flex justify-content-center">
+                    <div id="content">
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <table>
+                            {{ form.as_table }}
+                            {{ profile_form.as_table }}
+                            </table>
+                            <button type="submit" class="btn btn-lg btn-success">Submit</button>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

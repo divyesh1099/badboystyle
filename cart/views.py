@@ -4,6 +4,8 @@ from product.models import *
 from offer.models import Offer
 from django.contrib.auth.decorators import login_required
 import math
+import razorpay
+
 # Create your views here.
 
 @login_required
@@ -32,13 +34,23 @@ def index(request):
     total = math.ceil(subtotal- discount+ shipping)
     if total <1:
         total = 1
+    total_in_paise = total*100
     context = {
         "items": items,
         "subtotal": subtotal,
         "discount": discount,
         "shipping": shipping,
-        "total":total
+        "total":total,
+        "total_in_paise":total_in_paise,
     }
+
+    if request.method == 'POST':
+        client = razorpay.Client(auth=("rzp_test_C3J7evdYwRoSAs", "BcybRfQTm3EoB5fygqz2DihF"))
+        DATA = {
+            "amount": total,
+            "currency": "INR",
+        }
+        client.order.create(data=DATA)
     return render(request, 'cart/index.html', context)
 
 @login_required

@@ -50,7 +50,31 @@ Cart
                             <h4><span class="text">Subtotal</span><span class="price" id="my_subtotal">₹{{ subtotal }}</span></h4>
                             <h4><span class="text">Discount</span><span class="price" id="my_discount">₹{{ discount }}</span></h4>
                             <h4><span class="text">Shipping</span><span class="price" id="my_shipping">₹{{ shipping }}</span></h4>
-                            <h4><span class="text">Total</span><span class="price" id="my_total">₹{{ total }}</span></h4><button class="btn btn-primary btn-lg d-block w-100" type="button">Checkout</button>
+                            <!-- Razorpay Button -->
+                            <h4>
+                                <span class="text">Total</span><span class="price" id="my_total">₹{{ total }}</span>
+                            </h4>
+                            <!-- <button class="btn btn-primary btn-lg d-block w-100" id = 'payment_button' type="button">Checkout</button> -->
+                            <form action="{% url 'payment:payment_success' %}" method="post">
+                                {% csrf_token %}
+                                <script
+                                    src="https://checkout.razorpay.com/v1/checkout.js"
+                                    data-key="rzp_test_C3J7evdYwRoSAs" 
+                                    data-amount="{{ total_in_paise }}"
+                                    data-currency="INR"
+                                    data-buttontext="Checkout"
+                                    data-name="Order"
+                                    data-description="Just few steps ahead..."
+                                    data-image="{{ user.image.url }}"
+                                    data-prefill.name="{{ user.first_name }} {{ user.last_name }}"
+                                    data-prefill.email="{{ user.email }}"
+                                >
+                                payment_button = document.getElementById('payment_button');
+                                payment_button.setAttribute('class') = 'btn btn-primary btn-lg d-block w-100';
+                                
+                                </script>
+                                <!-- <input type="hidden" custom="Hidden Element" name="hidden"> -->
+                            </form>
                         </div>
                     </div>
                 </div>
