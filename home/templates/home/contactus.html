@@ -1,6 +1,5 @@
 {% extends 'home/layout.html' %}
 {% load static %}
-{% load easy_maps_tags %}
 {% block title %}
 Contact Us
 {% endblock %}
@@ -18,13 +17,12 @@ Contact Us
       </div>
     {% endif %}
     <div class="row">
-        <div class="col-6">
+        <div class="col-lg-6 col-sm-12">
             <div class="container m-1 p-1">
                 <!-- <div id="googlemap" style="width:100%; height:350px;"></div> -->
-                {% easy_map "Russia, Ekaterinburg, Mira 32" 300 400 %}
             </div>
         </div>
-        <div class="col-6">
+        <div class="col-lg-6 col-sm-12">
             <section class="clean-block clean-form dark">
                 <div class="container">
                     <div class="block-heading">

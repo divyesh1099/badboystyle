@@ -2,6 +2,7 @@ from django.db import models
 from django.db.models.fields.related import ForeignKey
 from django.contrib.auth.models import User
 from django.conf import settings
+import uuid
 sizes = [
     ('36', '36'),
     ('38', '38'),
@@ -35,15 +36,6 @@ class Type(models.Model):
     def __str__(self):
         return self.name
 
-class Comment(models.Model):
-    comment = models.TextField()
-    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    created = models.DateTimeField(auto_now_add = True)
-    edited = models.DateTimeField(auto_now = True)
-
-    def __str__(self):
-        return self.author.username
-
 class Specification(models.Model):
     product_dimension_LxWxH = models.CharField(max_length = 200, blank=True, null=True)
     date_first_available = models.DateField(auto_now_add=True, blank=True, null=True)
@@ -71,10 +63,27 @@ class Product(models.Model):
     created = models.DateTimeField(auto_now_add = True)
     edited = models.DateTimeField(auto_now = True)
     price = models.FloatField(default=0)
-    comment = models.ManyToManyField(Comment, blank=True)
+    # comment = models.ManyToManyField(Comment, blank=True)
+    generated_product_id = models.CharField(max_length=100,  default=uuid.uuid4, unique=True)
+
+    def __unicode__(self):
+        return self.name
 
     class Meta:
         ordering = ['edited']
 
     def __str__(self):
         return self.name
+
+class Comment(models.Model):
+    comment = models.TextField()
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add = True)
+    edited = models.DateTimeField(auto_now = True)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='comment_of_product', blank=True)
+
+    class Meta:
+        ordering = ('created', )
+
+    def __str__(self):
+        return self.author.username

@@ -1,10 +1,14 @@
+from django import utils
 from django.db.models.fields import related
+from django.http.request import MediaType
 from django.shortcuts import redirect, render
 from .models import *
+from django.contrib.auth.decorators import login_required
 from cart.models import Item
 # Create your views here.
 def index(request, name):
     product = Product.objects.get(name = name)
+    comments = Comment.objects.all().filter(product=product)
     related_products = Product.objects.filter(type=product.type).exclude(name=name)[:2]
     if request.method == "POST":
         cart_product = request.POST["cart_product"]
@@ -23,5 +27,44 @@ def index(request, name):
         context = {
             "product": product,
             "related_products": related_products,
+            "comments":comments,
         }
+    return render(request, 'product/index.html', context)
+
+@login_required
+def comment(request, name):
+    product = Product.objects.get(name = name)
+    comments = Comment.objects.all().filter(product=product)
+    related_products = Product.objects.filter(type=product.type).exclude(name=name)[:2]
+    context = {
+            "product": product,
+            "related_products": related_products,
+            "comments":comments,
+        }
+    if request.method == "POST":
+        if request.POST['comment']:
+            comment = request.POST['comment']
+            product = Product.objects.get(name = name)
+            new_comment = Comment.objects.create(comment = comment, author = request.user, product = product)
+            new_comment.save()
+        else:
+            pass
         return render(request, 'product/index.html', context)
+    
+    return render(request, 'product/index.html', context)
+
+@login_required
+def delete_comment(request, name, comment_id):
+    try:
+        Comment.objects.filter(pk = comment_id).delete()
+    except Exception as e:
+        print("Cannot Delete because", e)
+    product = Product.objects.get(name = name)
+    comments = Comment.objects.all().filter(product=product)
+    related_products = Product.objects.filter(type=product.type).exclude(name=name)[:2]
+    context = {
+        "product": product,
+        "related_products": related_products,
+        "comments":comments,
+    }
+    return render(request, 'product/index.html', context)

@@ -11,7 +11,6 @@ Cart
         <div class="container">
             <div class="block-heading">
                 <h2 class="text-info">Shopping Cart</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna, dignissim nec auctor in, mattis vitae leo.</p>
             </div>
             <div class="content">
                 {% if items %}
@@ -80,12 +79,15 @@ Cart
                 </div>
                 {% else %}
                     <div class="jumbotron">
-                        <div class="col">
-                            <div class="row d-flex justify-content-center">
-                                <h4 class="display-4">Nothing here </h4>                                
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <div class="row d-flex justify-content-center text-center">
+                                <h4 class="display-4">Nothing here :( </h4>                                
                             </div>
                             <div class="row">
-                                <a href="{% url 'home:all' %}" class="btn btn-lg btn-primary">Check out some COOL Stuff Here</a>
+                                <div class="container d-flex justify-content-center">
+
+                                    <a href="{% url 'home:all' %}" class="btn btn-lg btn-sm-12 btn-primary m-1 p-1">All Products</a>
+                                </div>
                             </div>
                         </div>
                     </div>

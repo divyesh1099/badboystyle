@@ -29,23 +29,26 @@ Product
                         </div>
                         <div class="col-md-6">
                             <div class="info">
-                                <form method="post">
+                                <form action="{% url 'product:index' product.name %}" method="post">
                                     {% csrf_token %}
                                     <h3>{{ product.name }}</h3>
-                                    <div class="rating"><img src="{% static 'assets/img/star.svg' %}"><img src="{% static 'assets/img/star.svg' %}"><img src="{% static 'assets/img/star.svg' %}"><img src="{% static 'assets/img/star-half-empty.svg' %}"><img src="{% static 'assets/img/star-empty.svg' %}"></div>
+                                    <!-- STAR RATING STARTS -->
+                                    <!-- <div class="rating"><img src="{% static 'assets/img/star.svg' %}"><img src="{% static 'assets/img/star.svg' %}"><img src="{% static 'assets/img/star.svg' %}"><img src="{% static 'assets/img/star-half-empty.svg' %}"><img src="{% static 'assets/img/star-empty.svg' %}"></div> -->
+                                    <!-- STAR RATING ENDS -->
                                     <div class="price">
                                         <h3>{{ product.price }}₹</h3>
                                     </div>
                                     <input type="text" name="cart_product" id="cart_product" value="{{ product.name }}" hidden>
                                     <div class="row">
+                                        {% if user.is_active %}
                                         <div class="col-6">
+
                                             {% if product.product_of_item.quantity %}
                                             <p class="form-group">Quantity:<input type="number" name='quantity' min="1" placeholder="1" value="{{ product.product_of_item.quantity }}"></p>
                                             {% else %}
                                             <p class="form-group">Quantity:<input type="number" name='quantity' min="1" placeholder="1" value="1"></p>
                                             {% endif %}
                                         </div>
-                                        {% if user.is_active %}
                                         <div class="col-lg-6 col-md-12 col-sm-12">
                                             <button class="btn btn-primary btn-lg m-1" type="submit" href="{% url 'cart:index' %}">
                                                 <i class="icon-basket col-6"></i>Add to Cart
@@ -72,7 +75,10 @@ Product
                         <ul class="nav nav-tabs" role="tablist" id="myTab">
                             <li class="nav-item" role="presentation"><a class="nav-link active" role="tab" data-bs-toggle="tab" id="description-tab" href="#description">Description</a></li>
                             <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" id="specifications-tabs" href="#specifications">Specifications</a></li>
+                            <!-- REVIEWS TAB BUTTON STARTS -->
                             <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" id="reviews-tab" href="#reviews">Reviews</a></li>
+                            <!-- REVIEWS TAB BUTTON ENDS -->
+                        
                         </ul>
                         <div class="tab-content" id="myTabContent">
                             <div class="tab-pane fade show active description" role="tabpanel" id="description">
@@ -136,12 +142,60 @@ Product
                                                 <td>{{ product.specification.included_components }}</td>
                                             </tr>
                                             {% endif %}
+                                            <tr>
+                                                <td class="stat">Product Id</td>
+                                                <td>{{ product.generated_product_id }}</td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
+                            <!-- REVIEWS TAB STARTS -->
                             <div class="tab-pane fade" role="tabpanel" id="reviews">
+                                {% if user.is_active %}
+                                <form action="{% url 'product:comment' product.name %}" method="post">
+                                    {% csrf_token %}
+                                    <div class="reviews">
+                                        <div class="review-item">
+                                            <!-- STAR REVIEW STARTS -->
+                                            <!-- <div class="rating"><img src="assets/img/star.svg"><img src="assets/img/star.svg"><img src="assets/img/star.svg"><img src="assets/img/star.svg"><img src="assets/img/star-empty.svg"></div> -->
+                                            <!-- STAR REVIEW ENDS -->
+                                            <!-- <h4>Incredible product</h4> -->
+                                            <!-- <input class="form-control" type="text" name="comment" id="comment"> -->
+                                            <textarea class="form-control" name="comment" id="comment" cols="30" rows="5"></textarea>
+                                            <!-- <span class="text-muted">
+                                                <a href="#">John Smith</a>, 20 Jan 2018
+                                            </span> -->
+                                            <!-- <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec augue nunc, pretium at augue at, convallis pellentesque ipsum. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> -->
+                                            <button class="btn btn-md btn-primary m-1" type="submit">Post</button>
+                                        </div>
+                                    </div>
+                                </form>
+                                {% endif %}
+                                {% for comment in comments reversed %}
                                 <div class="reviews">
+                                    <div class="review-item">
+
+                                        <!-- STAR REVIEWS STARTS -->
+                                        <!-- <div class="rating"><img src="assets/img/star.svg"><img src="assets/img/star.svg"><img src="assets/img/star.svg"><img src="assets/img/star.svg"><img src="assets/img/star-empty.svg"></div> -->
+                                        <!-- STAR REVIEWS ENDS -->
+                                        <h4>{{ comment.comment }}</h4>
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <span class="text-muted">
+                                                    <p>By {{ comment.author }}, {{ comment.edited }}</p>
+                                                </span>
+                                            </div>
+                                            <div class="col-lg-6 d-flex justify-content-end">
+                                                {% if comment.author.username == user.username %}
+                                                <a class="btn btn-sm btn-danger m-0 p-3" href="{% url 'product:delete_comment' product.name comment.id %}"><i class="icon-trash"> Delete</i></a>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                                <!-- <div class="reviews">
                                     <div class="review-item">
                                         <div class="rating"><img src="assets/img/star.svg"><img src="assets/img/star.svg"><img src="assets/img/star.svg"><img src="assets/img/star.svg"><img src="assets/img/star-empty.svg"></div>
                                         <h4>Incredible product</h4><span class="text-muted"><a href="#">John Smith</a>, 20 Jan 2018</span>
@@ -155,14 +209,8 @@ Product
                                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec augue nunc, pretium at augue at, convallis pellentesque ipsum. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
                                     </div>
                                 </div>
-                                <div class="reviews">
-                                    <div class="review-item">
-                                        <div class="rating"><img src="assets/img/star.svg"><img src="assets/img/star.svg"><img src="assets/img/star.svg"><img src="assets/img/star.svg"><img src="assets/img/star-empty.svg"></div>
-                                        <h4>Incredible product</h4><span class="text-muted"><a href="#">John Smith</a>, 20 Jan 2018</span>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec augue nunc, pretium at augue at, convallis pellentesque ipsum. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                                    </div>
-                                </div>
-                            </div>
+                            </div> -->
+                            <!-- REVIEWS TAB ENDS -->
                         </div>
                     </div>
                 </div>
@@ -176,7 +224,11 @@ Product
                                 <div class="clean-related-item">
                                     <div class="image"><a href="{% url 'product:index' a_product.name %}"><img class="img-fluid d-block mx-auto" src="{{ a_product.image.url }}"></a></div>
                                     <div class="related-name"><a href="{% url 'product:index' a_product.name %}">{{ a_product.name }}</a>
-                                        <div class="rating"><img src="{% static 'assets/img/star.svg' %}"><img src="{% static 'assets/img/star.svg' %}"><img src="{% static 'assets/img/star.svg' %}"><img src="{% static 'assets/img/star-half-empty.svg' %}"><img src="{% static 'assets/img/star-empty.svg' %}"></div>
+                                        
+                                        <!-- STAR RATING STARTS -->
+                                        <!-- <div class="rating"><img src="{% static 'assets/img/star.svg' %}"><img src="{% static 'assets/img/star.svg' %}"><img src="{% static 'assets/img/star.svg' %}"><img src="{% static 'assets/img/star-half-empty.svg' %}"><img src="{% static 'assets/img/star-empty.svg' %}"></div> -->
+                                        <!-- STAR RATING STARTS -->
+                                        
                                         <h4>{{ a_product.price }}₹</h4>
                                     </div>
                                 </div>

@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
-import razorpay
+from cart.models import Item
 # Create your views here.
 # def index(request):
 #     if request.method == 'POST':
@@ -15,4 +15,5 @@ import razorpay
 
 @csrf_exempt
 def payment_success(request):
+    Item.objects.all().delete()
     return render(request, 'payment/payment_success.html')
