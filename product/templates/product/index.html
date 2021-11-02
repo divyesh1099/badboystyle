@@ -62,10 +62,36 @@ Product
                                         </div>
                                         {% endif %}
                                     </div>
-                                </form>
-                                <div class="summary">
+                                    <div class="summary">
+                                    <div class="flex-row">
+                                            {% csrf_token %}
+                                        {% if product.sizes_available %}
+                                        <h4>Available Sizes                                            
+                                            <select name="size" id="size">
+                                            {% for size in product.sizes_available.all %}
+                                            <option value="{{ size }}">{{ size }}</option>
+                                            {% endfor %}
+                                            </select>
+                                        </h4>
+                                        {% endif %}
+                                        {% if product.colors_available %}
+                                        <h4>Available Colors
+                                            <select name="color" id="my_dropdown_for_color">
+                                            {% for color in product.colors_available.all %}                                    
+                                            <option style="background-color: {{ color.color }};" value="{{ color.color }}"><span>{{ color.name }}</span></option>
+                                            {% endfor %}
+                                            </select>
+                                            <!-- <div class="d-flex flex-row"> -->
+                                                <!-- {% for color in product.colors_available.all %} -->
+                                                <!-- <button class="p-1 m-1 btn btn-lg" style="height: 20px; width: 20px; background-color: {{ color }};"><input type="hidden" value="{{ color }}"></button> -->
+                                                <!-- {% endfor %} -->
+                                            <!-- </div> -->
+                                        </h4>
+                                        {% endif %}
+                                    </div>
                                     <p>{{ product.description }}</p>
-                                </div>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>

@@ -15,7 +15,7 @@ from django.core.mail import send_mail
 
 # Create your views here.
 def index(request):
-    carousel_images = CarouselImage.objects.get()
+    carousel_images = CarouselImage.objects.get_or_create()[0]
     featured_list = Featured.objects.all()
     featured = list()
     for feature in featured_list:

@@ -5,10 +5,12 @@ from .models import *
 # admin.site.register(Product)
 class ProductAdmin(admin.ModelAdmin):
 
-   list_display = ["name", "type", "size", "stock", "price"]
+   list_display = ["name", "type", "stock", "price"]
    class Media:
       js = ("assets/js/tinyInject.js",)
 
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Type)
+admin.site.register(Size)
+admin.site.register(Color)
 admin.site.register(Specification)

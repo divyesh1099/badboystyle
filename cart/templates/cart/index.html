@@ -28,11 +28,28 @@ Cart
                                             <div><span>Description:&nbsp;</span><span class="value">{{ item.name.description|truncatewords:60 }}</span></div>
                                         </div>
                                     </div>
-                                    <div class="col-6 col-md-2"><label class="form-label d-none d-md-block" for="quantity">Quantity</label>
+                                    <div class="col-6 col-md-2">
+                                        <div class="row font-weight-bold m-1">
+                                            Details
+                                        </div>
                                         <div class="row">
-                                            <div class="col-4" ><a class="btn btn-sm btn-warning" href="{% url 'product:index' item.name %}">Edit</a></div>
-                                            <div class="col-4"><p class="m-1">{{ item.quantity }}</p></div>
-                                            <div class="col-4 d-flex justify-content-center"><a class="btn btn-sm btn-danger" href="{% url 'cart:delete_item' item.name %}"><i class="icon-trash"></i></a></div>
+                                            Quantity: {{ item.quantity }}
+                                        </div>
+
+                                        {% if item.size %}
+                                        <div class="row">
+                                            Size: {{ item.size }}
+                                        </div>
+                                        {% endif %}
+
+                                        {% if item.color %}
+                                        <div class="row">
+                                            Color: {{ item.color }}
+                                        </div>
+                                        {% endif %}
+                                        <div class="row">
+                                            <a class="btn btn-sm btn-warning col-5 mr-1" href="{% url 'product:index' item.name %}"><i class="icon-pencil"></i></a>
+                                            <a class="btn btn-sm btn-danger col-5" href="{% url 'cart:delete_item' item.name %}"><i class="icon-trash"></i></a>
                                         </div>
                                     </div>
                                     <div class="col-6 col-md-2 price my_price"><span>{{ item.name.price }}</span><span>₹</span></div>

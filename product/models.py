@@ -3,28 +3,35 @@ from django.db.models.fields.related import ForeignKey
 from django.contrib.auth.models import User
 from django.conf import settings
 import uuid
-sizes = [
-    ('36', '36'),
-    ('38', '38'),
-    ('40', '40'),
-    ('42', '42'),
-    ('44', '44'),
-    ('46', '46'),
-    ('48', '48'),
-    ('50', '50'),
-    ('S', 'S'),
-    ('M', 'M'),
-    ('L', 'L'),
-    ('XL', 'XL'),
-    ('XXL', 'XXL'),
-    ('XXXL', 'XXXL'),
-]
+from colorfield.fields import ColorField
 
+# Create Your Models Here
 
-# Create your models here.
+class Size(models.Model):
+    size = models.CharField(max_length=1000, blank=True, unique=True)
 
-# class UserModel(User):
-#     pass
+    class Meta:
+        ordering = ['size']
+    
+    def __str__(self):
+        return self.size
+
+class Color(models.Model):
+    COLOR_CHOICES = [
+        ("#FFFFFF", "white"),
+        ("#000000", "black"),
+        ("#FF0000", "red"),
+        ("#FFFF00", "yellow"),
+        ("#0000FF", "blue"),
+        ("#00FF00", "green"),
+        ("#808080", "grey"),
+        ("#800000", "maroon"),
+    ]
+    color = ColorField(default = '#FF0000', choices = COLOR_CHOICES)
+    name = models.CharField(max_length=100, unique=True)
+
+    def __str__(self):
+        return self.name
 
 class Type(models.Model):
     name = models.CharField(max_length = 100, blank=True, unique=True)
@@ -41,18 +48,25 @@ class Specification(models.Model):
     date_first_available = models.DateField(auto_now_add=True, blank=True, null=True)
     manufacturer_name = models.CharField(max_length=200, blank=True, null=True)
     country_of_origin = models.CharField(max_length=100, blank=True, null=True)
-    department = models.CharField(max_length=100, blank=True, null=True)
+    department = models.CharField(max_length=100, blank=True, null=True, default='PRODUCT')
     manufacturer_address = models.CharField(max_length=500, blank=True, null=True)
     packer_address = models.CharField(max_length=500, blank=True, null=True)
     item_weight = models.FloatField(blank=True, null=True)
     net_quantity = models.IntegerField(blank=True, null=True)
     included_components = models.TextField(blank=True, null=True)
 
+    class Meta:
+        ordering = ['department']
+
+    def __str__(self):
+        return self.department
+
 
 class Product(models.Model):
     name = models.CharField(max_length=1000, unique=True)
     type = models.ForeignKey(Type, on_delete=models.CASCADE, related_name="type_of_product")
-    size = models.CharField(max_length=4, choices=sizes)
+    sizes_available = models.ManyToManyField(Size, related_name="size_available_of_sizes", blank=True)
+    colors_available = models.ManyToManyField(Color, related_name="colors_available_of_color", blank=True)
     image = models.ImageField(upload_to='products/%Y/%m/%d/')
     image2 = models.ImageField(upload_to='products/%Y/%m/%d/', blank = True, null = True)
     image3 = models.ImageField(upload_to='products/%Y/%m/%d/', blank = True, null = True)
@@ -63,7 +77,6 @@ class Product(models.Model):
     created = models.DateTimeField(auto_now_add = True)
     edited = models.DateTimeField(auto_now = True)
     price = models.FloatField(default=0)
-    # comment = models.ManyToManyField(Comment, blank=True)
     generated_product_id = models.CharField(max_length=100,  default=uuid.uuid4, unique=True)
 
     def __unicode__(self):

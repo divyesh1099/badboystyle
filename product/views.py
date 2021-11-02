@@ -13,13 +13,20 @@ def index(request, name):
     if request.method == "POST":
         cart_product = request.POST["cart_product"]
         quantity = request.POST['quantity']
+        size = request.POST['size']
+        color = request.POST['color']
         new_product = Product.objects.get(name = cart_product)
+        new_size = Size.objects.get(size = size)
+        new_color = Color.objects.get(color = color)
+        print(new_size, new_color)
         if new_product in Item.objects.all():
             Item.objects.filter(name = new_product).update(quantity = quantity)
+            Item.objects.filter(name = new_product).update(size = size)
+            Item.objects.filter(name = new_product).update(color = color)
         else:
             try:
-                cart_item = Item.objects.update_or_create(name=new_product, defaults={'quantity': quantity})
-                cart_item[0].save()
+                Item.objects.update_or_create(name=new_product, defaults={'quantity': quantity})
+                Item.objects.filter(name=new_product).update(size = size, color = new_color)
             except Exception as e:
                 print(e)
         return redirect('cart:index')
