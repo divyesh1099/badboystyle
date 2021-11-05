@@ -77,6 +77,7 @@ Payment
                                     data-image="{% static 'assets/img/logo.png' %}"
                                     data-prefill.name="{{ user.first_name }} {{ user.last_name }}"
                                     data-prefill.email="{{ user.email }}"
+                                    data-prefill.contact="{{ user.profile.phonenumber }}"
                                 >
                             </script>
                                 <input type="hidden" custom="Hidden Element" name="hidden">
