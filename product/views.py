@@ -18,7 +18,6 @@ def index(request, name):
         new_product = Product.objects.get(name = cart_product)
         new_size = Size.objects.get(size = size)
         new_color = Color.objects.get(color = color)
-        print(new_size, new_color)
         if new_product in Item.objects.all():
             Item.objects.filter(name = new_product).update(quantity = quantity)
             Item.objects.filter(name = new_product).update(size = size)

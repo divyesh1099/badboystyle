@@ -1,0 +1,20 @@
+{% extends 'home/layout.html' %}
+
+{% block title %}
+Order History
+{% endblock %}
+
+{% block body %}
+<main class="page mt-5 mb-5">
+    <section>
+        <div class="container">
+            <h1>Order History</h1>
+            <ol>
+                {% for order in orders %}
+                <h1><li>{{ order.generated_order_id }}</li></h1>
+                {% endfor %}
+            </ol>
+        </div>
+    </section>
+</main>
+{% endblock %}

@@ -8,9 +8,10 @@ class EditProfileForm(forms.ModelForm):
         widget = {
             'email':forms.TextInput(attrs={'class': 'form-control'}),
             'first_name':forms.TextInput(attrs={'class': 'form-control'}),
-            'last_name':forms.TextInput(attrs={'class': 'form-control'})
+            'last_name':forms.TextInput(attrs={'class': 'form-control'}),
         }
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ('image',)
+        
