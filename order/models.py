@@ -5,11 +5,7 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 
-class Total(models.Model):
-    total = models.IntegerField()
-    
-    def __str__(self):
-        return str(self.total)
+
 
 class Order(models.Model):
     generated_order_id = models.CharField(max_length=100,  default=uuid.uuid4, unique=True)
@@ -22,9 +18,9 @@ class Order(models.Model):
     city = models.CharField(max_length=1000)
     state = models.CharField(max_length=1000)
     zip = models.PositiveBigIntegerField()
-    amount = models.ForeignKey(Total, on_delete=models.CASCADE)
+    # amount = models.ForeignKey(Total, on_delete=models.CASCADE)
     phonenumber = models.PositiveBigIntegerField()
-    # amount = models.PositiveIntegerField()
+    amount = models.PositiveIntegerField()
     dispatched = models.BooleanField()
     dispatched_timestamp = models.DateTimeField(auto_now_add=True)
     delivered = models.BooleanField()

@@ -35,8 +35,6 @@ def index(request):
     if total <1:
         total = 1
     total_in_paise = total*100
-    total_object = Total.objects.create(total = total)
-    total_object.save()
     context = {
         "items": items,
         "subtotal": subtotal,

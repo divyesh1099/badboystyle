@@ -58,7 +58,7 @@ def edit_profile(request):
         # return render(request, 'users/index.html')
         
     else:
-        profile = Profile.objects.get(user = request.user)
+        profile = Profile.objects.get_or_create(user = request.user)[0]
         context = {
             "profile":profile
         }

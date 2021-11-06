@@ -1,5 +1,5 @@
 from django.contrib import admin
-from order.models import Order, Total
+from order.models import Order
 
 # Register your models here.
 class OrderAdmin(admin.ModelAdmin):
@@ -7,4 +7,4 @@ class OrderAdmin(admin.ModelAdmin):
     search_fields = ['user']
 
 admin.site.register(Order, OrderAdmin)
-admin.site.register(Total)
+# admin.site.register(Total)
