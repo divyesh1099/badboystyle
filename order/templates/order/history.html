@@ -8,12 +8,67 @@ Order History
 <main class="page mt-5 mb-5">
     <section>
         <div class="container">
-            <h1>Order History</h1>
-            <ol>
-                {% for order in orders %}
-                <h1><li>{{ order.generated_order_id }}</li></h1>
-                {% endfor %}
-            </ol>
+            <div class="row">
+                <div class="col-lg-1"></div>
+                <div class="col-lg-10 col-sm-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="font-weight-bold">Order History</h2>
+                        </div>
+                        <div class="card-body">
+                        {% for order in orders reversed %}
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="row-lg-12">
+                                            <h5 class="pt-2">Order on <b>{{ order.date }} {{ order.time }}</b></h5>
+                                        </div>
+                                        <div class="row-lg-12">
+                                            <p>Order Total: <b>{{ order.amount }}₹</b></p>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="row">
+                                            <div class="col-lg-9 pt-2">
+                                                <p>Order Id: {{ order.generated_order_id }}</p>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <a href="{% url 'order:delete' order.generated_order_id %}" class="btn btn-md btn-danger"><i class="icon-trash">Delete</i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="d-flex flex-row flex-nowrap overflow-auto">
+                                    {% for product in order.products.all %}
+                                    <div class="card card-block mx-2" style="max-width: 300px;">
+                                        <img class="card-img-top img-thumbnail" src="{{ product.image.url }}" alt="">
+                                        <div class="card-body">
+                                            <p>{{ product.description|truncatewords:10 }}</p>
+                                        </div>
+                                        <div class="card-footer font-weight-bold d-flex justify-content-center">
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <a href="{% url 'product:index' product.name %}" >{{ product.name }}</a>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <a href="{% url 'product:review' product.name %}" class="btn btn-sm btn-primary">Share Review</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>                                    
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-1"></div>
+            </div>
         </div>
     </section>
 </main>

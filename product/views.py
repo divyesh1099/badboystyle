@@ -74,3 +74,6 @@ def delete_comment(request, name, comment_id):
         "comments":comments,
     }
     return render(request, 'product/index.html', context)
+
+def review(request, name):
+    return render(request, 'product/review.html')
