@@ -29,6 +29,12 @@ def index(request):
     return render(request, 'payment/index.html', context)
 
 @csrf_exempt
-def payment_success(request):
+def payment_success(request, generated_order_id):
     Item.objects.all().delete()
+    try:
+        order = Order.objects.get(generated_order_id = generated_order_id)
+        order.paid = True
+        order.save()
+    except Exception as e:
+        print("Order pair error is ", e)
     return render(request, 'payment/payment_success.html')

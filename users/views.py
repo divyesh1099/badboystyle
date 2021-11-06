@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from .models import Profile
 from django.contrib.auth.models import User
+from django.contrib.auth import logout
 
 # Create your views here.
 @login_required
@@ -85,5 +86,11 @@ def edit_profile(request):
 
 @login_required
 def delete(request):
-    User.objects.get(user = request.user).delete()
-    return render(request, 'home/login.html')
+    try:
+        user = User.objects.get(username = request.user.username)
+        user.delete
+    except Exception as e:
+        print("User delete error is ", e)
+        logout(request)
+        return render(request, 'home/login.html')
+    return render(request, 'home/signup.html')

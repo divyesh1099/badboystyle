@@ -64,7 +64,7 @@ Payment
                         <div class="col-lg-3"></div>
                         <div class="col-lg-6 mt-2">
                             <!-- BUTTON 1 STARTS -->
-                            <form class="col-lg-12 col-sm-12" action="{% url 'payment:payment_success' %}" method="post">
+                            <form class="col-lg-12 col-sm-12" action="{% url 'payment:payment_success' order.generated_order_id %}" method="post">
                                 {% csrf_token %}
                                 <script
                                     src="https://checkout.razorpay.com/v1/checkout.js"

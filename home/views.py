@@ -11,6 +11,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import EmptyPage, InvalidPage, Paginator
 from django.conf import settings
 from django.core.mail import send_mail
+from users.models import Profile
 
 
 # Create your views here.
@@ -98,6 +99,7 @@ def my_logout(request):
 
 def my_signup(request):
     customer_group = Group.objects.get_or_create(name='Customer')[0]
+
     if request.method == "POST":
         username = request.POST["username"]
         email = request.POST["email"]
@@ -118,6 +120,8 @@ def my_signup(request):
             user.is_staff=True
             customer_group.user_set.add(user)
             user.save()
+            profile = Profile.objects.create(user = user)
+            profile.save()
         except IntegrityError:
             return render(request, "home/signup.html", {
                 "error": "Username already taken."

@@ -5,5 +5,5 @@ app_name = 'payment'
 
 urlpatterns = [
     path('', views.index, name = 'index'),
-    path('payment_success', views.payment_success, name = 'payment_success'),
+    path('payment_success/<str:generated_order_id>', views.payment_success, name = 'payment_success'),
 ]
