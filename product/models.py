@@ -1,3 +1,4 @@
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.db.models.fields.related import ForeignKey
 from django.contrib.auth.models import User
@@ -77,6 +78,7 @@ class Product(models.Model):
     created = models.DateTimeField(auto_now_add = True)
     edited = models.DateTimeField(auto_now = True)
     price = models.FloatField(default=0)
+    rating = models.SmallIntegerField(blank=True, default=0, validators=[MinValueValidator(0), MaxValueValidator(5)])
     generated_product_id = models.CharField(max_length=100,  default=uuid.uuid4, unique=True)
 
     def __unicode__(self):
