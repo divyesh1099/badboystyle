@@ -22,10 +22,17 @@ Order History
                                 <div class="row">
                                     <div class="col-lg-6">
                                         <div class="row-lg-12">
-                                            <h5 class="pt-2">Order on <b>{{ order.date }} {{ order.time }}</b></h5>
+                                            <h5 class="pt-2">Ordered on <b>{{ order.date }} {{ order.time }}</b></h5>
                                         </div>
                                         <div class="row-lg-12">
-                                            <p>Order Total: <b>{{ order.amount }}₹</b></p>
+                                            <div class="col-lg-6">
+                                                <p>Order Total: <b>{{ order.amount }}₹</b></p>
+                                            </div>
+                                            {% if order.paid %}
+                                            <div class="col-lg-6">
+                                                <p>Paid: <i class="icon-check"></i></p>
+                                            </div>
+                                            {% endif %}
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
