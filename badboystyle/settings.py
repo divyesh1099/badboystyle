@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'cart',
     'colorfield',
     'home',
+    'mathfilters',
     'offer',
     'order',
     'payment',

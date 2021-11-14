@@ -1,5 +1,6 @@
 {% extends 'home/layout.html' %}
 {% load static %}
+{% load mathfilters %}
 {% block title %}
 Product
 {% endblock %}
@@ -36,7 +37,12 @@ Product
                                     <!-- <div class="rating"><img src="{% static 'assets/img/star.svg' %}"><img src="{% static 'assets/img/star.svg' %}"><img src="{% static 'assets/img/star.svg' %}"><img src="{% static 'assets/img/star-half-empty.svg' %}"><img src="{% static 'assets/img/star-empty.svg' %}"></div> -->
                                     <!-- STAR RATING ENDS -->
                                     <div class="price">
+                                        {% if discount != 0 %}
+                                        <h6><strike>{{ product.price }}₹</strike>  {{ discount }} %OFF</h6>
+                                        <h3>{{ product.price|mul:discount|div:100 }}₹</h3>
+                                        {% else %}
                                         <h3>{{ product.price }}₹</h3>
+                                        {% endif %}
                                     </div>
                                     <input type="text" name="cart_product" id="cart_product" value="{{ product.name }}" hidden>
                                     <div class="row">
@@ -112,7 +118,7 @@ Product
                             </div>
                             <div class="tab-pane fade specifications" role="tabpanel" id="specifications">
                                 <div class="table-responsive">
-                                    <table class="table table-bordered">
+                                    <table class="table table-bordered table-hover">
                                         <tbody>
                                             {% if product.specification.product_dimension_LxWxH %}
                                             <tr>

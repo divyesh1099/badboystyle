@@ -12,18 +12,21 @@ from django.core.paginator import EmptyPage, InvalidPage, Paginator
 from django.conf import settings
 from django.core.mail import send_mail
 from users.models import Profile
-
+from offer.models import *
 
 # Create your views here.
 def index(request):
     carousel_images = CarouselImage.objects.get_or_create()[0]
     featured_list = Featured.objects.all()
     featured = list()
+    offers = Offer.objects.all()
+
     for feature in featured_list:
         featured.append(Product.objects.get(name = feature))
     context = {
         'carousel_images': carousel_images,
-        'featured': featured
+        'featured': featured,
+        'offers':offers,
         }
     return render(request, 'home/index.html', context)
 
