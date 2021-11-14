@@ -18,17 +18,7 @@ class Size(models.Model):
         return self.size
 
 class Color(models.Model):
-    COLOR_CHOICES = [
-        ("#FFFFFF", "white"),
-        ("#000000", "black"),
-        ("#FF0000", "red"),
-        ("#FFFF00", "yellow"),
-        ("#0000FF", "blue"),
-        ("#00FF00", "green"),
-        ("#808080", "grey"),
-        ("#800000", "maroon"),
-    ]
-    color = ColorField(default = '#FF0000', choices = COLOR_CHOICES)
+    color = ColorField(default = '#FF0000')
     name = models.CharField(max_length=100, unique=True)
 
     def __str__(self):
