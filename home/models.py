@@ -10,12 +10,6 @@ class CarouselImage(models.Model):
     i2 = models.ImageField(upload_to='carousel/%Y/%m/%d/', blank=True, unique = True, default = 'carousel_default/2.jpg')
     i3 = models.ImageField(upload_to='carousel/%Y/%m/%d/', blank=True, unique = True, default = 'carousel_default/3.jpg')
 
-class Featured(models.Model):
-    product = models.OneToOneField(Product, on_delete=models.CASCADE, related_name='product_of_featured', blank=True, unique=True)
-    
-    def __str__(self):
-        return self.product.name
-
 class Gallery(models.Model):
     product = models.OneToOneField(Product, on_delete=models.CASCADE, related_name='product_of_gallery', blank=True, unique=True)
     

@@ -104,64 +104,76 @@ Badboystyle
 
             <!-- FEATURED ENDS -->
 
-            {% for offer in offers %}
             <div class="card m-2 justify-content-center">
-                <div class="card-header text-center">
-                    <h2 class="text-info font-weight-bold">{{ offer.name }}</h2>
-                </div>
-                <div class="card-body">
-                    <div class="d-flex flex-row flex-nowrap overflow-auto">
-                        {% for product in offer.product.all %}
-                            <div class="card clean-card" style="max-width: 200px;">
-                                <a href="{% url 'product:index' product.name %}">
-                                    <img class="card-img-top d-block img-thumbnail" src="{{ product.image.url }}">
-                                </a>
-    
-                                <!-- Try  -->
-                                <!-- {% if offer.discount %}
-                                <div class="card-img-overlay">
-                                    <div class="row d-flex justify-content-end">
-                                        <a class="col-4 btn btn-lg btn-warning" href="{% url 'product:index' product.name %}">{{ offer.discount }}% OFF*</a>                                
-                                    </div>
-                                </div>
-                                {% endif %} -->
-                                <!-- Try  -->
-    
-                                <div class="card-body">
-                                    <div class="row">
-                                        <h6 class="col-lg-6" style="text-decoration-line: line-through;">{{ product.price }}₹</h6>
-                                        <p class="col-lg-6">{{ offer.discount }}% OFF</p>
-                                    </div>
-                                    
-                                    <h3 class="font-weight-bold">{{ product.price|mul:offer.discount|div:100 }}₹</h3>                                    
-                                    <a href="{% url 'product:index' product.name %}" style="text-decoration-line: none;"><h4 class="card-title">{{ product.name }}</h4></a>
-                                </div>
-                            </div>    
-                            
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-lg-6 col-sm-12 text-center">
+                            <h2 class="text-info font-weight-bold text-center">Offered Products</h2>
+                        </div>
+                        <div class="col-lg-6 col-sm-12 d-flex justify-content-end">
+                            <a href="{% url 'offer:all' %}" class="btn btn-warning btn-md">View All</a>
                         </div>
                     </div>
-                    <!-- <div class="card-footer"></div> -->
-                    {% endfor %}
-                </div>
-            {% endfor %}
-            <div class="card m-2 justify-content-center">
-                <div class="card-header text-center">
-                    <h2 class="text-info font-weight-bold">Categories</h2>
                 </div>
                 <div class="card-body">
                     <div class="d-flex flex-row flex-nowrap overflow-auto">
-                        {% for category in categories %}
-                            <div class="card clean-card" style="max-width: 200px;">
+                        {% for product in offered_products %}
+
+                                <div class="card clean-card" style="min-width: 200px;">
+                                    <a href="{% url 'product:index' product.name %}">
+                                        <img class="card-img-top d-block img-thumbnail" src="{{ product.image.url }}">
+                                    </a>
+        
+                                    <!-- Try  -->
+                                    <!-- {% if offer.discount %}
+                                    <div class="card-img-overlay">
+                                        <div class="row d-flex justify-content-end">
+                                            <a class="col-4 btn btn-lg btn-warning" href="{% url 'product:index' product.name %}">{{ offer.discount }}% OFF*</a>                                
+                                        </div>
+                                    </div>
+                                    {% endif %} -->
+                                    <!-- Try  -->
+        
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <h6 class="col-lg-6" style="text-decoration-line: line-through;">{{ product.price }}₹</h6>
+                                            <p class="col-lg-6">{{ product.offer.discount }}% OFF</p>
+                                        </div>
+                                        {% with discounted_value=product.price|mul:product.offer.discount|div:100 %}
+                                        <h3 class="font-weight-bold">{{ product.price|sub:discounted_value }}₹</h3>   
+                                        {% endwith %}                                 
+                                        <a href="{% url 'product:index' product.name %}" style="text-decoration-line: none;"><h4 class="card-title">{{ product.name }}</h4></a>
+                                    </div>
+                                </div>
+                            
+                        {% endfor %}
+                    </div>                            
+                </div>
+                <!-- <div class="card-footer"></div> -->
+            </div>
+            <div class="card m-2 justify-content-center">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-lg-6 col-sm-12 text-center">
+                            <h2 class="text-info font-weight-bold">Categories</h2>
+                        </div>
+                        <div class="col-lg-6 col-sm-12 d-flex justify-content-end">
+                            <a href="{% url 'home:categories' %}" class="btn btn-warning btn-md">View All</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex flex-row flex-nowrap overflow-auto">
+                        {% for category in categories|slice:":6" %}
+                            <div class="card clean-card" style="min-width: 200px;">
                                 <a href="{% url 'home:category' category %}" data-mdb-ripple-color="light">
                                     <img class="card-img d-block img-thumbnail" src="{{ category.image.url }}">
                                     <div class="card-img-overlay">
                                         <!-- <a href="{% url 'home:category' category %}" class="">
                                             <h3 class="card-title font-weight-bold text-center">{{ category }}</h3>
                                         </a> -->
-                                        <div class="mydivouter">
-                                            <div class="container mt-3">
-                                                <a href="{% url 'home:category' category %}" type="button" class="mt-5 mybuttonoverlap btn btn-warning">{{ category }}</a>
-                                            </div>	
+                                        <div class="mydivouter d-flex justify-content-center">
+                                            <a href="{% url 'home:category' category %}" type="button" class="mybuttonoverlap btn btn-warning">{{ category }}</a>
                                         </div>
                                     </div>
                                 </a>

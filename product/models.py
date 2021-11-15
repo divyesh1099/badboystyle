@@ -6,6 +6,8 @@ from django.conf import settings
 import uuid
 from colorfield.fields import ColorField
 
+from offer.models import Offer
+
 # Create Your Models Here
 
 class Size(models.Model):
@@ -56,14 +58,15 @@ class Specification(models.Model):
 class Product(models.Model):
     name = models.CharField(max_length=1000, unique=True)
     type = models.ForeignKey(Type, on_delete=models.CASCADE, related_name="type_of_product")
-    sizes_available = models.ManyToManyField(Size, related_name="size_available_of_sizes", blank=True)
-    colors_available = models.ManyToManyField(Color, related_name="colors_available_of_color", blank=True)
+    sizes_available = models.ManyToManyField(Size, related_name="size_available_of_product")
+    colors_available = models.ManyToManyField(Color, related_name="colors_available_of_product")
     image = models.ImageField(upload_to='products/%Y/%m/%d/')
     image2 = models.ImageField(upload_to='products/%Y/%m/%d/', blank = True, null = True)
     image3 = models.ImageField(upload_to='products/%Y/%m/%d/', blank = True, null = True)
     description = models.TextField()
     detail = models.TextField()
-    specification = models.OneToOneField(Specification, on_delete=models.CASCADE, related_name="specification_of_product", blank=True, null=True)
+    specification = models.ForeignKey(Specification, on_delete=models.CASCADE, related_name="specification_of_product", blank=True, null=True)
+    offer = models.ForeignKey(Offer, on_delete=models.CASCADE, related_name="offer_of_product", blank=True, null=True)
     stock = models.PositiveBigIntegerField(default=1)
     created = models.DateTimeField(auto_now_add = True)
     edited = models.DateTimeField(auto_now = True)

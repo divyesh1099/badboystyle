@@ -37,9 +37,11 @@ Product
                                     <!-- <div class="rating"><img src="{% static 'assets/img/star.svg' %}"><img src="{% static 'assets/img/star.svg' %}"><img src="{% static 'assets/img/star.svg' %}"><img src="{% static 'assets/img/star-half-empty.svg' %}"><img src="{% static 'assets/img/star-empty.svg' %}"></div> -->
                                     <!-- STAR RATING ENDS -->
                                     <div class="price">
-                                        {% if discount != 0 %}
-                                        <h6><strike>{{ product.price }}₹</strike>  {{ discount }} %OFF</h6>
-                                        <h3>{{ product.price|mul:discount|div:100 }}₹</h3>
+                                        {% if product.offer.discount %}
+                                        <h6><strike>{{ product.price }}₹</strike>  {{ product.offer.discount }} %OFF</h6>
+                                        {% with discounted_value=product.price|mul:product.offer.discount|div:100 %}
+                                        <h3>{{ product.price|sub:discounted_value }}₹</h3>
+                                        {% endwith %}
                                         {% else %}
                                         <h3>{{ product.price }}₹</h3>
                                         {% endif %}
@@ -252,16 +254,22 @@ Product
                     <div class="items">
                         <div class="row justify-content-center">
                             {% for a_product in related_products %}
-                            <div class="col-sm-6 col-lg-4">
+                            <div class="col-sm-6 col-lg-4" style="max-width: 300px;">
                                 <div class="clean-related-item">
-                                    <div class="image"><a href="{% url 'product:index' a_product.name %}"><img class="img-fluid d-block mx-auto" src="{{ a_product.image.url }}"></a></div>
-                                    <div class="related-name"><a href="{% url 'product:index' a_product.name %}">{{ a_product.name }}</a>
+                                    <div class="image">
+                                        <a href="{% url 'product:index' a_product.name %}">
+                                            <img class="img-fluid d-block mx-auto" src="{{ a_product.image.url }}">
+                                        </a>
+                                    </div>
+                                    <div class="related-name">
+                                        <a href="{% url 'product:index' a_product.name %}">{{ a_product.name }}</a>
                                         
                                         <!-- STAR RATING STARTS -->
                                         <!-- <div class="rating"><img src="{% static 'assets/img/star.svg' %}"><img src="{% static 'assets/img/star.svg' %}"><img src="{% static 'assets/img/star.svg' %}"><img src="{% static 'assets/img/star-half-empty.svg' %}"><img src="{% static 'assets/img/star-empty.svg' %}"></div> -->
                                         <!-- STAR RATING STARTS -->
-                                        
-                                        <h4>{{ a_product.price }}₹</h4>
+                                        {% with discounted_value=a_product.price|mul:a_product.offer.discount|div:100 %}                                        
+                                        <h4>{{ a_product.price|sub:discounted_value }}₹</h4>
+                                        {% endwith %}
                                     </div>
                                 </div>
                             </div>

@@ -1,6 +1,6 @@
 {% extends 'home/layout.html' %}
 {% load static %}
-
+{% load mathfilters %}
 {% block title %}
 All
 {% endblock %}
@@ -74,8 +74,19 @@ All
                                             <!-- STAR RATING STARTS -->
                                             <!-- <div class="rating"><img src="{% static 'assets/img/star.svg' %}"><img src="{% static 'assets/img/star.svg' %}"><img src="{% static 'assets/img/star.svg' %}"><img src="{% static 'assets/img/star-half-empty.svg' %}"><img src="{% static 'assets/img/star-empty.svg' %}"></div> -->
                                             <!-- STAR RATING ENDS -->
-                                            <div class="price">
-                                                <h3>{{ product.price }}₹</h3>
+                                            <div class="price row">
+                                                <div class="col-lg-5 col-sm-12">
+                                                    {% if product.offer %}
+                                                        {% with discounted_value=product.price|mul:product.offer.discount|div:100 %}
+                                                        <h3>{{ product.price|sub:discounted_value }}₹</h3>
+                                                        {% endwith %}
+                                                    {% else %}
+                                                    <h3>{{ product.price }}₹</h3>
+                                                    {% endif %}
+                                                </div>
+                                                <div class="col-lg-7 col-sm-12">
+                                                        <p><strike>{{ product.price }}₹</strike> {{ product.offer.discount }}% OFF</p>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

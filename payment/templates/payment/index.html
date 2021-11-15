@@ -1,5 +1,6 @@
 {% extends 'home/layout.html' %}
 {% load static %}
+{% load mathfilters %}
 {% block title %}
 Payment
 {% endblock %}
@@ -40,7 +41,9 @@ Payment
                             {% if item.color %}
                             <h3>Color: {{ item.color }}</h3>
                             {% endif %}
-                            <h3>Price: {{ item.name.price }}₹</h3>
+                            {% with total_price=item.name.price|mul:item.quantity discounted_value=item.name.price|mul:item.name.offer.discount|mul:item.quantity|div:100 %}
+                            <h3>Price: {{ total_price|sub:discounted_value }}₹</h3>
+                            {% endwith %}
                         </div>
                     </div>
                     {% endfor %}

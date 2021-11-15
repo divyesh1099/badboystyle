@@ -11,11 +11,6 @@ def index(request, name):
     product = Product.objects.get(name = name)
     comments = Comment.objects.all().filter(product=product)
     related_products = Product.objects.filter(type=product.type).exclude(name=name)[:2]
-    discount = 0
-    offers = Offer.objects.all()
-    for offer in offers:
-        if product in offer.product.all():
-            discount = offer.discount
     if request.method == "POST":
         cart_product = request.POST["cart_product"]
         quantity = request.POST['quantity']
@@ -40,7 +35,6 @@ def index(request, name):
             "product": product,
             "related_products": related_products,
             "comments":comments,
-            "discount":discount,
         }
     return render(request, 'product/index.html', context)
 

@@ -17,24 +17,25 @@ from offer.models import *
 # Create your views here.
 def index(request):
     carousel_images = CarouselImage.objects.get_or_create()[0]
-    featured_list = Featured.objects.all()
-    featured = list()
-    offers = Offer.objects.all()
+    offered_products =list()
+    products = Product.objects.all()
+    count = 0
+    for product in products:
+        if product.offer and count <7:
+            offered_products.append(product)
+            count += 1
 
-    for feature in featured_list:
-        featured.append(Product.objects.get(name = feature))
+    print(offered_products)
     context = {
         'carousel_images': carousel_images,
-        'featured': featured,
-        'offers':offers,
+        'offered_products': offered_products,
         }
     return render(request, 'home/index.html', context)
 
 def all(request):
     products = Product.objects.all()
-    categories = Type.objects.all()
     sizes = ['36','38','40','42','44','46','48','50','S','M','L','XL','XXL','XXXL']
-    paginator = Paginator(products, 10)
+    paginator = Paginator(products, 9)
     try:
         page = int(request.GET.get('page', '1'))
     except:
@@ -46,7 +47,6 @@ def all(request):
 
     context = {
         "products": products,
-        "categories": categories,
         "sizes":sizes,
     }
     return render(request, 'home/all.html', context)
@@ -71,6 +71,15 @@ def categories(request):
 def category(request, category):
     categorie = get_object_or_404(Type, name = category)
     products = Product.objects.filter(type = categorie.id)
+    paginator = Paginator(products, 9)
+    try:
+        page = int(request.GET.get('page', '1'))
+    except:
+        page = 1
+    try:
+        products = paginator.page(page)
+    except(EmptyPage, InvalidPage):
+        products = paginator.page(paginator.num_pages)
     context = {
         'category': categorie,
         'products': products,

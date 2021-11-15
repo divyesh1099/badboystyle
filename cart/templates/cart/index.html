@@ -1,6 +1,6 @@
 {% extends 'home/layout.html' %}
 {% load static %}
-
+{% load mathfilters %}
 {% block title %}
 Cart
 {% endblock %}
@@ -52,7 +52,9 @@ Cart
                                             <a class="btn btn-sm btn-danger col-5" href="{% url 'cart:delete_item' item.name %}"><i class="icon-trash"></i></a>
                                         </div>
                                     </div>
-                                    <div class="col-6 col-md-2 price my_price"><span>{{ item.name.price }}</span><span>₹</span></div>
+                                    {% with total_price=item.name.price|mul:item.quantity discounted_value=item.name.price|mul:item.quantity|mul:item.name.offer.discount|div:100 %}
+                                    <div class="col-6 col-md-2 price my_price"><span>{{ total_price|sub:discounted_value }}</span><span>₹</span></div>
+                                    {% endwith %}
                                 </div>
                             </div>
                             {% endfor %}
