@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'product',
     'review',
     'users',
+
 ]
 
 # User Profile

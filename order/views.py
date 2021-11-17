@@ -24,7 +24,6 @@ def index(request):
         # Claculate order total 
         items = Item.objects.all()
         subtotal = 0
-        discount_in_percent = 0
         shipping = 0
         total = 0
         discount = 0

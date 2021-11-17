@@ -7,18 +7,41 @@ Review
 {% block body %}
 <main class="page mt-5">
     <section>
-        <h1>REVIEW</h1>
         <div class="row">
             <div class="col-lg-3"></div>
             <div class="col-lg-6">
-                <div class="card">
-                    <div class="card-header">
-                        <h1 class="font-weight-bold">PRODUCT REVIEW</h1>
+                <div class="card mb-2">
+                    <div class="card-header text-center">
+                        <h1 class="font-weight-bold">{{ product.name }} Review</h1>
                     </div>
                     <div class="card-body">
-                        Test Text
+                        <form action="{% url 'review:index' product.name %}" enctype="multipart/form-data" method="post">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="reviewFormControlTextarea1">Share Review</label>
+                                <textarea name="comment" class="form-control" id="reviewFormControlTextarea1" rows="3" placeholder="Type Here ...">{{ review.comment }}</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="reviewFormControlFile1">Image</label>
+                                <input type="file" name="images" class="form-control-file" id="reviewFormControlFile1" accept=".jpeg, .png, .jpg" multiple>
+                            </div>
+                            <div class="form-group d-flex justify-content-center">
+                                <button type="submit" class="btn btn-success">Submit</button>
+                            </div>
+                        </form>
+                        {% if reviewImages %}
+                        <div class="d-flex flex-row flex-nowrap overflow-auto">
+                            <div class="card">
+                                <div class="card-img-top">
+                                    {% for image in reviewImages %}
+                                    <img src="{{ image.image.url }}" style="min-width: 120px; max-height: 150px;">
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
                     </div>
-                    <div class="card-footer">Test Text</div>
+                    <!-- <div class="card-footer">Test Text</div> -->
                 </div>
             </div>
             <div class="col-lg-3"></div>

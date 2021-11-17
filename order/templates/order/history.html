@@ -61,7 +61,9 @@ Order History
                                                     <a href="{% url 'product:index' product.name %}" >{{ product.name }}</a>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <a href="{% url 'product:review' product.name %}" class="btn btn-sm btn-primary">Share Review</a>
+
+                                                    <a href="{% url 'review:index' product.name %}" class="btn btn-sm btn-warning">Share Review</a>
+
                                                 </div>
                                             </div>
                                         </div>

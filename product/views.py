@@ -6,9 +6,12 @@ from .models import *
 from django.contrib.auth.decorators import login_required
 from cart.models import Item
 from offer.models import Offer
+from review.models import *
 # Create your views here.
 def index(request, name):
     product = Product.objects.get(name = name)
+    review = Review.objects.get(product = product)
+    reviewImages = ReviewImage.objects.filter(review = review)
     comments = Comment.objects.all().filter(product=product)
     related_products = Product.objects.filter(type=product.type).exclude(name=name)[:2]
     if request.method == "POST":
@@ -35,6 +38,7 @@ def index(request, name):
             "product": product,
             "related_products": related_products,
             "comments":comments,
+            "reviewImages":reviewImages,
         }
     return render(request, 'product/index.html', context)
 

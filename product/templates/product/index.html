@@ -206,6 +206,45 @@ Product
                                     </div>
                                 </form>
                                 {% endif %}
+
+                                {% for reviewImage in reviewImages %}
+                                <div class="reviews">
+                                    <div class="review-item">
+
+                                        <!-- STAR REVIEWS STARTS -->
+                                        <!-- <div class="rating"><img src="assets/img/star.svg"><img src="assets/img/star.svg"><img src="assets/img/star.svg"><img src="assets/img/star.svg"><img src="assets/img/star-empty.svg"></div> -->
+                                        <!-- STAR REVIEWS ENDS -->
+                                        <h4>{{ reviewImage.review.comment }}</h4>
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <span class="text-muted">
+                                                    <p>By {{ reviewImage.review.user.username }}, {{ reviewImage.review.edited }}</p>
+                                                </span>
+                                            </div>
+                                            <div class="col-lg-6 d-flex justify-content-end">
+                                                {% if reviewImage.review.user.username == user.username %}
+                                                <a class="btn btn-sm btn-danger m-0 p-3" href="{% url 'review:delete_review' product.name %}"><i class="icon-trash"> Delete</i></a>
+                                                {% endif %}
+                                            </div>
+                                            <!-- {% if reviewImage.image %}
+                                            <div class="d-flex flex-row flex-nowrap overflow-auto">
+                                                <div class="card">
+                                                    <div class="card-img-top">
+                                                        
+                                                        <img src="{{ reviewImage.image.url }}" style="min-width: 120px; max-height: 150px;">
+
+                                                        {% for image in reviewImage.image.all %}
+                                                        <img src="{{ image.url }}" style="min-width: 120px; max-height: 150px;">
+                                                        {% endfor %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {% endif %} -->
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+
                                 {% for comment in comments reversed %}
                                 <div class="reviews">
                                     <div class="review-item">

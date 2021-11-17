@@ -25,7 +25,6 @@ def index(request):
             offered_products.append(product)
             count += 1
 
-    print(offered_products)
     context = {
         'carousel_images': carousel_images,
         'offered_products': offered_products,

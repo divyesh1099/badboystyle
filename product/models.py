@@ -5,7 +5,6 @@ from django.contrib.auth.models import User
 from django.conf import settings
 import uuid
 from colorfield.fields import ColorField
-
 from offer.models import Offer
 
 # Create Your Models Here
@@ -71,7 +70,6 @@ class Product(models.Model):
     created = models.DateTimeField(auto_now_add = True)
     edited = models.DateTimeField(auto_now = True)
     price = models.FloatField(default=0)
-    rating = models.SmallIntegerField(blank=True, default=0, validators=[MinValueValidator(0), MaxValueValidator(5)])
     generated_product_id = models.CharField(max_length=100,  default=uuid.uuid4, unique=True)
 
     def __unicode__(self):
