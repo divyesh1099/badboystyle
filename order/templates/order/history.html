@@ -1,5 +1,5 @@
 {% extends 'home/layout.html' %}
-
+{% load mathfilters %}
 {% block title %}
 Order History
 {% endblock %}
@@ -53,21 +53,29 @@ Order History
                                     <div class="card card-block mx-2" style="min-width: 280px; max-width: 280px;">
                                         <img class="card-img-top img-thumbnail" src="{{ product.image.url }}" alt="">
                                         <div class="card-body">
-                                            <p>{{ product.description|truncatewords:10 }}</p>
-                                        </div>
-                                        <div class="card-footer font-weight-bold d-flex justify-content-center">
                                             <div class="row">
-                                                <div class="col-lg-6">
-                                                    <a href="{% url 'product:index' product.name %}" >{{ product.name }}</a>
+                                                <div class="col-lg-5 col-sm-12">
+                                                    {% if product.offer %}
+                                                        {% with discounted_value=product.price|mul:product.offer.discount|div:100 %}
+                                                        <h5>{{ product.price|sub:discounted_value }}₹</h5>
+                                                        {% endwith %}
+                                                    {% else %}
+                                                    <h5>{{ product.price }}₹</h5>
+                                                    {% endif %}
                                                 </div>
-                                                <div class="col-lg-6">
-
-                                                    <a href="{% url 'review:index' product.name %}" class="btn btn-sm btn-warning">Share Review</a>
-
+                                                <div class="col-lg-7 col-sm-12">
+                                                        <p><strike>{{ product.price }}₹</strike> {{ product.offer.discount }}% OFF</p>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>                                    
+                                        <div class="card-footer font-weight-bold d-flex justify-content-center">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <a href="{% url 'product:index' product.name %}" >{{ product.name }}</a>
+                                                </div>                                                
+                                            </div>
+                                        </div>
+                                    </div>                             
                                     {% endfor %}
                                 </div>
                             </div>

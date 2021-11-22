@@ -81,15 +81,15 @@ class Product(models.Model):
     def __str__(self):
         return self.name
 
-class Comment(models.Model):
-    comment = models.TextField()
-    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    created = models.DateTimeField(auto_now_add = True)
-    edited = models.DateTimeField(auto_now = True)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='comment_of_product', blank=True)
+# class Comment(models.Model):
+#     comment = models.TextField()
+#     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+#     created = models.DateTimeField(auto_now_add = True)
+#     edited = models.DateTimeField(auto_now = True)
+#     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='comment_of_product', blank=True)
 
-    class Meta:
-        ordering = ('created', )
+#     class Meta:
+#         ordering = ('created', )
 
-    def __str__(self):
-        return self.author.username
+#     def __str__(self):
+#         return self.author.username
