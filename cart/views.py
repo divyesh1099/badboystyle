@@ -12,15 +12,16 @@ from order.models import *
 def index(request):
     items = Item.objects.all()
     subtotal = 0
-    shipping = 0
+    shipping = Shipping.objects.get_or_create()[0].shipping
     total = 0
     discount = 0
     # Discount Calculation 
     for item in items:
-        discount += (item.name.price * item.quantity * item.name.offer.discount / 100)
+        discount += (item.price * item.quantity * item.name.offer.discount / 100)
+
     
     for item in items:
-        subtotal += (item.name.price * item.quantity)
+        subtotal += (item.price * item.quantity)
 
     total = math.ceil(subtotal - discount + shipping)
     # try:

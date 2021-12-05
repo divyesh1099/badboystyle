@@ -1,7 +1,7 @@
 {% extends 'home/layout.html' %}
 
 {% block title %}
-Order Details
+Badboystyle|Order Details
 {% endblock %}
 
 {% block body %}
@@ -29,7 +29,7 @@ Order Details
                     </div>
                     <div class="col-md-6">
                       <label for="inputCity" class="form-label">City</label>
-                      <input type="text" name="city" class="form-control" id="inputCity" required>
+                      <input type="text" name="city" class="form-control" placeholder="Navi Mumbai" value="{{ user.profile.city }}" id="inputCity" required>
                     </div>
                     <div class="col-md-4">
                       <label for="inputState" class="form-label">State</label>
@@ -74,7 +74,7 @@ Order Details
                     </div>
                     <div class="col-md-2">
                       <label for="inputZip" class="form-label">Zip</label>
-                      <input type="number" name="zip" class="form-control" id="inputZip" required>
+                      <input type="number" value="{{ user.profile.zip_code }}" placeholder="400709" name="zip" class="form-control" id="inputZip" required>
                     </div>
                     <!-- <div class="col-3">
                         <label for="inputPaymentMethod" class="form-label">Payment Method</label>

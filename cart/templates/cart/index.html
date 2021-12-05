@@ -2,7 +2,7 @@
 {% load static %}
 {% load mathfilters %}
 {% block title %}
-Cart
+Badboystyle|Cart
 {% endblock %}
 
 {% block body %}
@@ -21,7 +21,7 @@ Cart
                             <div class="product">
                                 <div class="row justify-content-center align-items-center">
                                     <div class="col-md-3">
-                                        <div class="product-image"><img class="img-fluid d-block mx-auto image" src="{{ item.name.image.url }}"></div>
+                                        <div class="product-image"><img class="img-fluid d-block mx-auto image" src="{{ item.variation.image.url }}"></div>
                                     </div>
                                     <div class="col-md-5 product-info"><a class="product-name" href="{% url 'product:index' item.name %}">{{ item.name }}</a>
                                         <div class="product-specs">
@@ -47,13 +47,14 @@ Cart
                                             Color: {{ item.color }}
                                         </div>
                                         {% endif %}
+
                                         <div class="row">
                                             <a class="btn btn-sm btn-warning col-5 mr-1" href="{% url 'product:index' item.name %}"><i class="icon-pencil"></i></a>
                                             <a class="btn btn-sm btn-danger col-5" href="{% url 'cart:delete_item' item.name %}"><i class="icon-trash"></i></a>
                                         </div>
                                     </div>
-                                    {% with total_price=item.name.price|mul:item.quantity discounted_value=item.name.price|mul:item.quantity|mul:item.name.offer.discount|div:100 %}
-                                    <div class="col-6 col-md-2 price my_price"><span>{{ total_price|sub:discounted_value }}</span><span>₹</span></div>
+                                    {% with total_price=item.price|mul:item.quantity discounted_value=item.price|mul:item.quantity|mul:item.name.offer.discount|div:100 %}
+                                    <div class="col-6 col-md-2 price my_price"><span>{{ total_price|sub:discounted_value|floatformat:2 }}</span><span>₹</span></div>
                                     {% endwith %}
                                 </div>
                             </div>

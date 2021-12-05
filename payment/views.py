@@ -10,7 +10,6 @@ from django.contrib.auth.decorators import login_required
 @login_required
 def index(request):
     order = Order.objects.filter(user = request.user).last()
-    print("Order ", order)
     items = Item.objects.all()
     total_in_paise = order.amount.total *100
     context = {
@@ -30,11 +29,20 @@ def index(request):
 
 @csrf_exempt
 def payment_success(request, generated_order_id):
+    items = Item.objects.all()
+    for item in items:
+        product = Product.objects.get(name = item.name.name)
+        variation = Variation.objects.get(name = item.variation.name)
+        variation.stock = variation.stock - item.quantity
+        variation.save()
+        product.save()
+        
     Item.objects.all().delete()
     try:
         order = Order.objects.get(generated_order_id = generated_order_id)
         order.paid = True
         order.save()
+    
     except Exception as e:
         print("Order pair error is ", e)
     return render(request, 'payment/payment_success.html')

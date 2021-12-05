@@ -6,8 +6,14 @@ from django.conf import settings
 import uuid
 from colorfield.fields import ColorField
 from offer.models import Offer
-
+import math
 # Create Your Models Here
+
+class ProductImage(models.Model):
+    image = models.ImageField(upload_to='products/%Y/%m/%d/', default='products/default.jpg')
+
+class Shipping(models.Model):
+    shipping = models.FloatField(default=100)
 
 class Size(models.Model):
     size = models.CharField(max_length=1000, blank=True, unique=True)
@@ -53,27 +59,58 @@ class Specification(models.Model):
     def __str__(self):
         return self.department
 
+class Variation(models.Model):
+    name = models.CharField(max_length=1000, blank=True, null=True, unique=True)
+    stock = models.PositiveIntegerField(default=1, validators=[MinValueValidator(0)])
+    price = models.FloatField(default=0)
+    image = models.ImageField(upload_to ='products/%Y/%m/%d/', blank = True, null = True)
+    size = models.ForeignKey(Size, related_name="size_of_variation", on_delete=models.CASCADE, blank=True, null=True)
+    color = models.ForeignKey(Color, related_name="color_of_variation", on_delete=models.CASCADE, blank=True, null=True)
+    generated_variation_id = models.CharField(max_length=100,  default=uuid.uuid4, unique=True)
+
+    def __unicode__(self):
+        return self.name
+
+    # def save(self, *args, **kwargs):
+    #     Product.save(*args, **kwargs)
+    #     super(Variation, self).save(*args, **kwargs)
+
+
+    def __str__(self):
+        return self.name if self.name else "Variation: Stock" + str(self.stock) + ", Price: " + str(self.price)
 
 class Product(models.Model):
     name = models.CharField(max_length=1000, unique=True)
     type = models.ForeignKey(Type, on_delete=models.CASCADE, related_name="type_of_product")
-    sizes_available = models.ManyToManyField(Size, related_name="size_available_of_product")
-    colors_available = models.ManyToManyField(Color, related_name="colors_available_of_product")
-    image = models.ImageField(upload_to='products/%Y/%m/%d/')
-    image2 = models.ImageField(upload_to='products/%Y/%m/%d/', blank = True, null = True)
-    image3 = models.ImageField(upload_to='products/%Y/%m/%d/', blank = True, null = True)
+    images = models.ManyToManyField(ProductImage, related_name='image_of_product', blank=True)
     description = models.TextField()
     detail = models.TextField()
     specification = models.ForeignKey(Specification, on_delete=models.CASCADE, related_name="specification_of_product", blank=True, null=True)
     offer = models.ForeignKey(Offer, on_delete=models.CASCADE, related_name="offer_of_product", blank=True, null=True)
-    stock = models.PositiveBigIntegerField(default=1)
+    stock = models.PositiveBigIntegerField(default=1, validators=[MinValueValidator(0)])
     created = models.DateTimeField(auto_now_add = True)
     edited = models.DateTimeField(auto_now = True)
-    price = models.FloatField(default=0)
-    generated_product_id = models.CharField(max_length=100,  default=uuid.uuid4, unique=True)
+    variations = models.ManyToManyField(Variation, related_name="variation_of_product", blank=True)
+    price = models.FloatField(default=0, blank=True, null=True)
 
-    def __unicode__(self):
-        return self.name
+    def save(self, *args, **kwargs):
+        # Price Calculation
+        temporary_price = float(math.inf)
+        try:
+            for variation in self.variations.all():
+                if temporary_price >= variation.price:
+                    temporary_price = variation.price
+            self.price = temporary_price
+            # Stock Calculation
+            self.stock = 0
+            for variation in self.variations.all():
+                self.stock += variation.stock
+        except Exception as e:
+            print("Product Model Exception is: ", e)
+
+        # Mandatory
+        super(Product, self).save(*args, **kwargs)
+
 
     class Meta:
         ordering = ['edited']

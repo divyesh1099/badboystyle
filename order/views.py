@@ -3,6 +3,7 @@ from django.shortcuts import render
 from cart.models import Item
 from django.contrib.auth.decorators import login_required
 from .models import Order
+from product.models import Shipping
 from offer.models import Offer
 import math
 # Create your views here.
@@ -24,15 +25,15 @@ def index(request):
         # Claculate order total 
         items = Item.objects.all()
         subtotal = 0
-        shipping = 0
+        shipping = Shipping.objects.get().shipping
         total = 0
         discount = 0
         # Discount Calculation 
         for item in items:
-            discount += (item.name.price * item.quantity * item.name.offer.discount / 100)
+            discount += (item.price * item.quantity * item.name.offer.discount / 100)
     
         for item in items:
-            subtotal += (item.name.price * item.quantity)
+            subtotal += (item.price * item.quantity)
 
         total = math.ceil(subtotal - discount + shipping)
         # try:

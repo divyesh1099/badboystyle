@@ -37,9 +37,17 @@ def edit_profile(request):
             phonenumber = request.POST["phonenumber"]
             profile.phonenumber = phonenumber
             profile.save()
-        if request.POST["country"]:
-            country = request.POST["country"]
-            profile.country = country
+        if request.POST["state"]:
+            state = request.POST["state"]
+            profile.state = state
+            profile.save()
+        if request.POST["zip_code"]:
+            zip_code = request.POST["zip_code"]
+            profile.zip_code = zip_code
+            profile.save()
+        if request.POST["city"]:
+            city = request.POST["city"]
+            profile.city = city
             profile.save()
         if request.POST["address"]:
             address = request.POST["address"]

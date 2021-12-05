@@ -2,7 +2,7 @@
 {% load static %}
 {% load mathfilters %}
 {% block title %}
-All
+Badboystyle|All
 {% endblock %}
 
 {% block body %}
@@ -68,7 +68,32 @@ All
                                 {% for product in products.object_list %}
                                 <div class="col-12 col-md-6 col-lg-4">
                                     <div class="clean-product-item">
-                                        <div class="image"><a href="{% url 'product:index' product.name %}"><img class="img-fluid d-block mx-auto" src="{{ product.image.url }}"></a></div>
+                                        <div class="image">
+                                            <a href="{% url 'product:index' product.name %}">                                                
+                                                <!-- Images Carousel Starts -->
+                                                <div id="carousel{{ image.image }}Indicators" class="carousel slide" data-ride="carousel">
+                                                    <ol class="carousel-indicators">
+                                                        {% for image in product.images.all %}
+                                                        <li data-target="#carousel{{ image.image }}Indicators" data-slide-to="{{ forloop.counter0 }}" class="active"></li>
+                                                        {% endfor %}
+                                                    </ol>
+                                                    <div class="carousel-inner">
+                                                        {% for image in product.images.all %}
+                                                        {% if forloop.first %}
+                                                        <div class="carousel-item active">
+                                                        {% else %}
+                                                        <div class="carousel-item">
+                                                        {% endif %}
+                                                            <img class="img-fluid d-block mx-auto" src="{{ image.image.url }}" alt="{{ image.image }} slide">
+                                                        </div>
+                                                        {% endfor %}
+                                                    </div>    
+                                                </div>
+                                                <!-- Images Carousel Ends -->
+                                            </a>
+
+                                            
+                                        </div>
                                         <div class="product-name"><a href="{% url 'product:index' product.name %}">{{ product.name }}</a></div>
                                         <div class="about">
                                             <!-- STAR RATING STARTS -->

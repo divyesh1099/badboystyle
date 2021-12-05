@@ -1,7 +1,7 @@
 {% extends 'home/layout.html' %}
 {% load mathfilters %}
 {% block title %}
-Order History
+Badboystyle|Order History
 {% endblock %}
 
 {% block body %}
@@ -38,7 +38,7 @@ Order History
                                     <div class="col-lg-6">
                                         <div class="row">
                                             <div class="col-lg-9 pt-2">
-                                                <p>Order Id: {{ order.generated_order_id }}</p>
+                                                <p><b>Order Id:</b> {{ order.generated_order_id }}</p>
                                             </div>
                                             <div class="col-lg-3">
                                                 <a href="{% url 'order:delete' order.generated_order_id %}" class="btn btn-md btn-danger"><i class="icon-trash">Delete</i></a>
@@ -51,7 +51,7 @@ Order History
                                 <div class="d-flex flex-row flex-nowrap overflow-auto">
                                     {% for product in order.products.all %}
                                     <div class="card card-block mx-2" style="min-width: 280px; max-width: 280px;">
-                                        <img class="card-img-top img-thumbnail" src="{{ product.image.url }}" alt="">
+                                        <img class="card-img-top img-thumbnail" src="{{ product.images.first.image.url }}" alt="">
                                         <div class="card-body">
                                             <div class="row">
                                                 <div class="col-lg-5 col-sm-12">

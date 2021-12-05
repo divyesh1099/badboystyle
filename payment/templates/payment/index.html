@@ -2,7 +2,7 @@
 {% load static %}
 {% load mathfilters %}
 {% block title %}
-Payment
+Badboystyle|Payment
 {% endblock %}
 
 {% block body %}
@@ -25,7 +25,7 @@ Payment
                             <div class="card mb-3">
                                 <div class="row g-0">
                                   <div class="col-md-4">
-                                    <img src="{{ item.name.image.url }}" class="img-fluid rounded-start " alt="...">
+                                    <img src="{{ item.variation.image.url }}" class="img-fluid rounded-start " alt="...">
                                   </div>
                                   <div class="col-md-8">
                                     <div class="card-body">
@@ -41,8 +41,8 @@ Payment
                             {% if item.color %}
                             <h3>Color: {{ item.color }}</h3>
                             {% endif %}
-                            {% with total_price=item.name.price|mul:item.quantity discounted_value=item.name.price|mul:item.name.offer.discount|mul:item.quantity|div:100 %}
-                            <h3>Price: {{ total_price|sub:discounted_value }}₹</h3>
+                            {% with total_price=item.price|mul:item.quantity discounted_value=item.price|mul:item.name.offer.discount|mul:item.quantity|div:100 %}
+                            <h3>Price: {{ total_price|sub:discounted_value|floatformat:2 }}₹</h3>
                             {% endwith %}
                         </div>
                     </div>
@@ -51,21 +51,46 @@ Payment
                         <div class="col">
                             <div class="card">
                                 <div class="card-body">
-                                    <h5 class="font-weight-bold">Address</h5>
+                                    <div class="row">
+                                        <div class="card col-lg-6 col-sm-12">
+                                            <div class="card-header">
+                                                <h4 class="card-title font-weight-bold">
+                                                    Address
+                                                </h4>
+                                            </div>
+                                            <div class="card-body">
+                                                <p>{{ order.address }}, {{ order.city }}, {{ order.state }}, {{ order.zip }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="card col-lg-6 col-sm-12">
+                                            <div class="card-header">
+                                                <h4 class="card-title font-weight-bold">
+                                                    Contact Number
+                                                </h4>
+                                            </div>
+                                            <div class="card-body">
+                                                <p>{{ order.phonenumber }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- <h5 class="font-weight-bold">Address</h5>
                                     <p>{{ order.address }}, {{ order.city }}, {{ order.state }}, {{ order.zip }}</p>
-                                    <hr>
-                                    <h5 class="font-weight-bold">Contact Number</h5>
+                                    <hr> -->
+                                    <!-- <h5 class="font-weight-bold">Contact Number</h5>
                                     <p>{{ order.phonenumber }}</p>
-                                    <hr>
-                                    <h5 class="font-weight-bold">Total</h5>
-                                    <p>{{ order.amount }}₹</p>
+                                    <hr> -->
+                                    <!-- <div class=""> -->
+                                        <h3 class="font-weight-bold d-flex justify-content-end">Total</h3>
+                                        <h1 class="d-flex justify-content-end font-weight-bold text-success">{{ order.amount }}₹</h1>
+                                        <small class="d-flex justify-content-end font-weight-bold">(including shipping and taxes*)</small>
+                                    <!-- </div> -->
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-3"></div>
-                        <div class="col-lg-6 mt-2">
+                        <div class="col-lg-6 d-flex justify-content-center">
                             <!-- BUTTON 1 STARTS -->
                             <form class="col-lg-12 col-sm-12" action="{% url 'payment:payment_success' order.generated_order_id %}" method="post">
                                 {% csrf_token %}

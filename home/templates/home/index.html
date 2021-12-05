@@ -2,7 +2,7 @@
 {% load static %}
 {% load mathfilters %}
 {% block title %}
-Badboystyle
+Badboystyle|Home
 {% endblock %}
 
 {% block body %}
@@ -119,9 +119,42 @@ Badboystyle
                     <div class="d-flex flex-row flex-nowrap overflow-auto">
                         {% for product in offered_products %}
 
-                                <div class="card clean-card" style="min-width: 200px;">
-                                    <a href="{% url 'product:index' product.name %}">
-                                        <img class="card-img-top d-block img-thumbnail" src="{{ product.image.url }}">
+                                <div class="card clean-card" style="min-width: 200px; max-width: 300px;">
+                                    <!-- <a href="{% url 'product:index' product.name %}"> -->
+
+                                        <!-- Images Carousel Starts -->
+                                        <div id="carousel{{ product.name }}Indicators" class="carousel slide" data-ride="carousel">
+                                            <ol class="carousel-indicators">
+                                                {% for image in product.images.all %}
+                                                <li data-target="#carousel{{ product.name }}Indicators" data-slide-to="{{ forloop.counter0 }}" class="active"></li>
+                                                {% endfor %}
+                                            </ol>
+                                            <div class="carousel-inner">
+                                                {% for image in product.images.all %}
+                                                {% if forloop.first %}
+                                                <div class="carousel-item active">
+                                                {% else %}
+                                                <div class="carousel-item">
+                                                {% endif %}
+                                                    <img class="card-img-top d-block img-thumbnail" src="{{ image.image.url }}" alt="{{ image.image }} slide">
+                                                </div>
+                                                {% endfor %}
+                                            </div>
+
+                                            <a class="carousel-control-prev" href="#carousel{{ product.name }}Indicators" role="button" data-slide="prev">
+                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                            <span class="sr-only">Previous</span>
+                                            </a>
+
+                                            <a class="carousel-control-next" href="#carousel{{ product.name }}Indicators" role="button" data-slide="next">
+                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                            <span class="sr-only">Next</span>
+                                            </a>
+
+                                          </div>
+                                        <!-- Images Carousel Ends -->
+
+                                        <!-- <img class="card-img-top d-block img-thumbnail" src="{{ product.image.url }}"> -->
                                     </a>
         
                                     <!-- Try  -->
@@ -165,7 +198,7 @@ Badboystyle
                 <div class="card-body">
                     <div class="d-flex flex-row flex-nowrap overflow-auto">
                         {% for category in categories|slice:":6" %}
-                            <div class="card clean-card" style="min-width: 200px;">
+                            <div class="card clean-card" style="min-width: 200px; max-width: 300px;">
                                 <a href="{% url 'home:category' category %}" data-mdb-ripple-color="light">
                                     <img class="card-img d-block img-thumbnail" src="{{ category.image.url }}">
                                     <div class="card-img-overlay">

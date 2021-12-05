@@ -16,6 +16,11 @@ from offer.models import *
 
 # Create your views here.
 def index(request):
+    user = request.user
+    try:
+        Profile.objects.get_or_create(user = request.user)[0]
+    except Exception as e:
+        print("Profile Creation Error from home page is ", e)
     carousel_images = CarouselImage.objects.get_or_create()[0]
     offered_products =list()
     products = Product.objects.all()

@@ -2,7 +2,7 @@
 {% load static %}
 {% load mathfilters %}
 {% block title %}
-Product
+Badboystyle|Product
 {% endblock %}
 
 {% block body %}
@@ -17,12 +17,17 @@ Product
                                 <div id="product-preview" class="vanilla-zoom">
                                     <div class="zoomed-image"></div>
                                     <div class="sidebar">
-                                        <img class="img-fluid d-block small-preview" src="{{ product.image.url }}">
+                                        <!-- <img class="img-fluid d-block small-preview" src="{{ product.image.url }}">
                                         {% if product.image2 %}
                                         <img class="img-fluid d-block small-preview" src="{{ product.image2.url }}">
                                         {% endif %}
                                         {% if product.image3 %}
                                         <img class="img-fluid d-block small-preview" src="{{ product.image3.url }}">
+                                        {% endif %} -->
+                                        {% if product.variations %}
+                                            {% for variation in product.variations.all %}
+                                            <img class="img-fluid d-block small-preview" src="{{ variation.image.url }}">
+                                            {% endfor %}
                                         {% endif %}
                                     </div>
                                 </div>
@@ -36,70 +41,133 @@ Product
                                     <!-- STAR RATING STARTS -->
                                     <!-- <div class="rating"><img src="{% static 'assets/img/star.svg' %}"><img src="{% static 'assets/img/star.svg' %}"><img src="{% static 'assets/img/star.svg' %}"><img src="{% static 'assets/img/star-half-empty.svg' %}"><img src="{% static 'assets/img/star-empty.svg' %}"></div> -->
                                     <!-- STAR RATING ENDS -->
-                                    <div class="price">
-                                        {% if product.offer.discount %}
-                                        <h6><strike>{{ product.price }}₹</strike>  {{ product.offer.discount }} %OFF</h6>
-                                        {% with discounted_value=product.price|mul:product.offer.discount|div:100 %}
-                                        <h3>{{ product.price|sub:discounted_value }}₹</h3>
-                                        {% endwith %}
-                                        {% else %}
-                                        <h3>{{ product.price }}₹</h3>
-                                        {% endif %}
-                                    </div>
-                                    <input type="text" name="cart_product" id="cart_product" value="{{ product.name }}" hidden>
                                     <div class="row">
-                                        {% if user.is_active %}
-                                        <div class="col-6">
-
-                                            {% if product.product_of_item.quantity %}
-                                            <p class="form-group">Quantity:<input type="number" name='quantity' min="1" placeholder="1" value="{{ product.product_of_item.quantity }}"></p>
-                                            {% else %}
-                                            <p class="form-group">Quantity:<input type="number" name='quantity' min="1" placeholder="1" value="1"></p>
+                                        <div class="col-lg-6 col-md-6 col-sm-12">
+                                            <div class="price">
+                                                {% if product.offer.discount %}
+                                                <h6><strike>{{ product.price }}₹</strike>  {{ product.offer.discount }} %OFF</h6>
+                                                {% with discounted_value=product.price|mul:product.offer.discount|div:100 %}
+                                                <h3>{{ product.price|sub:discounted_value }}₹</h3>
+                                                {% endwith %}
+                                                {% else %}
+                                                <h3>{{ product.price }}₹</h3>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-12">
+                                            {% if user.is_active and product.stock > 0 %}
+                                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                                    <button class="btn btn-primary btn-lg m-1" type="submit" href="{% url 'cart:index' %}">
+                                                        <i class="icon-basket col-6"></i>Add to Cart
+                                                    </button>
+                                                </div>
+                                                {% elif user.is_active and product.stock <= 0 %}
+                                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                                    <button class="btn btn-warning btn-lg m-1 disabled">
+                                                        Out of Stock
+                                                    </button>
+                                                {% else %}
+                                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                                    <a class="btn btn-primary btn-lg m-1" href="{% url 'home:login' %}">
+                                                        <i class="icon-basket col-6"></i>Add to cart
+                                                    </a>
+                                                </div>
                                             {% endif %}
                                         </div>
-                                        <div class="col-lg-6 col-md-12 col-sm-12">
-                                            <button class="btn btn-primary btn-lg m-1" type="submit" href="{% url 'cart:index' %}">
-                                                <i class="icon-basket col-6"></i>Add to Cart
-                                            </button>
-                                        </div>
-                                        {% else %}
-                                        <div class="col-lg-6 col-md-12 col-sm-12">
-                                            <a class="btn btn-primary btn-lg m-1" href="{% url 'home:login' %}">
-                                                <i class="icon-basket col-6"></i>Add to cart
-                                            </a>
-                                        </div>
-                                        {% endif %}
                                     </div>
+                                    <input type="text" name="cart_product" id="cart_product" value="{{ product.name }}" hidden>
+                                    
                                     <div class="summary">
-                                    <div class="flex-row">
+                                        <div class="">
                                             {% csrf_token %}
-                                        {% if product.sizes_available %}
-                                        <h4>Available Sizes                                            
-                                            <select name="size" id="size">
-                                            {% for size in product.sizes_available.all %}
-                                            <option value="{{ size }}">{{ size }}</option>
-                                            {% endfor %}
-                                            </select>
-                                        </h4>
-                                        {% endif %}
-                                        {% if product.colors_available %}
-                                        <h4>Available Colors
-                                            <select name="color" id="my_dropdown_for_color">
-                                            {% for color in product.colors_available.all %}                                    
-                                            <option style="background-color: {{ color.color }};" value="{{ color.color }}"><span>{{ color.name }}</span></option>
-                                            {% endfor %}
-                                            </select>
-                                            <!-- <div class="d-flex flex-row"> -->
-                                                <!-- {% for color in product.colors_available.all %} -->
-                                                <!-- <button class="p-1 m-1 btn btn-lg" style="height: 20px; width: 20px; background-color: {{ color }};"><input type="hidden" value="{{ color }}"></button> -->
-                                                <!-- {% endfor %} -->
-                                            <!-- </div> -->
-                                        </h4>
-                                        {% endif %}
-                                    </div>
-                                    <p>{{ product.description }}</p>
+                                            {% if product.variations.all|length > 0 %}
+                                            <!-- Variation Starts -->
+                                            {% if product.stock > 0 %}
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <div class="card-header">
+                                                        <h4>Available Variations</h4>
+                                                    </div>
+                                                    <div class="d-flex flex-row flex-nowrap overflow-auto">
+                                                    {% for variation in product.variations.all %}
+                                                        <div class="form-check">
+                                                            {% if variation.stock >= 1 %}
+                                                            <input class="form-check-input" type="radio" name="variation" id="variation" value="[{{ variation.size }}, {{ variation.color.color }}, {{ variation.id }}, {{ variation.price }}]" required>
+                                                            <label class="form-check-label" for="flexRadioDefault1">
+                                                                <div class="card card-block mx-2">
+                                                                    <div class="card-img-top" style="max-width: 100px;">
+                                                                        <img class="img-fluid d-block small-preview" src="{{ variation.image.url }}" alt="Variation Image Here" >
+                                                                    </div>
+                                                                    <div class="card-footer">
+                                                                        <h6>Size: {{ variation.size }}</h6>
+                                                                        <h6>Color: {{ variation.color }}</h6>
+                                                                        {% with discounted_value=variation.price|mul:product.offer.discount|div:100 %}
+                                                                        <h6>Price: {{ variation.price|sub:discounted_value|floatformat:2 }}₹</h6>
+                                                                        {% endwith %}
+                                                                        <h6>Stock: {{ variation.stock }}</h6>
+                                                                        <div class="row">
+                                                                            {% if user.is_active and product.stock > 0 %}
+                                                                            <div class="col-12">
+                                                                                {% if product.product_of_item.quantity %}
+                                                                                <p class="form-group">Quantity:<input type="number" name='quantity' min="1" max="{{ variation.stock }}" placeholder="1" value="{{ product.product_of_item.quantity }}"></p>
+                                                                                {% else %}
+                                                                                <p class="form-group">Quantity:<input type="number" name='quantity' min="1" max="{{ variation.stock }}" placeholder="1" value="1"></p>
+                                                                                {% endif %}
+                                                                            </div>
+                                                                            {% endif %}                                                                            
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </label>
+                                                            {% else %}
+                                                            <h3>Check Our All Products <a href="{% url 'home:all' %}">Here</a></h3>
+                                                            <input class="form-check-input" type="hidden" name="variation"  id="variation" value="[{{ variation.size }}, {{ variation.color.color }}, {{ variation.id }}, {{ variation.price }}]" required>
+                                                            {% endif %}
+                                                            
+                                                        </div>
+                                                        <input type="hidden" name="price" value="{{ variation.price }}">
+                                                        {% endfor %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <h4 class="font-weight-bold text-danger">Only {{ product.stock }} left in Stock!</h4>
+                                            {% endif %}
+                                            <!-- Variation Ends -->
+                                            <!-- {% else %} -->
+                                            <!-- Size and Color Form Starts -->
+                                            <!-- {% if product.sizes_available %}
+                                            <h4>Available Sizes                                            
+                                                <select name="size" id="size">
+                                                {% for size in product.sizes_available.all %}
+                                                <option value="{{ size }}">{{ size }}</option>
+                                                {% endfor %}
+                                                </select>
+                                            </h4>
+                                            {% endif %}
+                                            {% if product.colors_available %}
+                                            <h4>Available Colors
+                                                <select name="color" id="my_dropdown_for_color">
+                                                {% for color in product.colors_available.all %}                                    
+                                                <option style="background-color: {{ color.color }};" value="{{ color.color }}"><span>{{ color.name }}</span></option>
+                                                {% endfor %}
+                                                </select> -->
+                                                <!-- <div class="d-flex flex-row"> -->
+                                                    <!-- {% for color in product.colors_available.all %} -->
+                                                    <!-- <button class="p-1 m-1 btn btn-lg" style="height: 20px; width: 20px; background-color: {{ color }};"><input type="hidden" value="{{ color }}"></button> -->
+                                                    <!-- {% endfor %} -->
+                                                <!-- </div> -->
+                                            <!-- </h4>
+                                            <input type="hidden" name="price" value="{{ product.price }}">
+                                            {% endif %} -->
+                                            <!-- Size and Color Form Ends -->
+                                            {% endif %}                                        
+                                        </div>
+                                        <p>{{ product.description }}</p>
+                                        
                                     </div>
                                 </form>
+                            </div>
                             </div>
                         </div>
                     </div>
@@ -111,8 +179,7 @@ Product
                             <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" id="specifications-tabs" href="#specifications">Specifications</a></li>
                             <!-- REVIEWS TAB BUTTON STARTS -->
                             <!-- <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" id="reviews-tab" href="#reviews">Reviews</a></li> -->
-                            <!-- REVIEWS TAB BUTTON ENDS -->
-                        
+                            <!-- REVIEWS TAB BUTTON ENDS -->                        
                         </ul>
                         <div class="tab-content" id="myTabContent">
                             <div class="tab-pane fade show active description" role="tabpanel" id="description">

@@ -1,7 +1,7 @@
 {% extends 'home/layout.html' %}
 {% load static %}
 {% block title %}
-View Profile
+Badboystyle|View Profile
 {% endblock %}
 
 {% block body %}
@@ -79,29 +79,33 @@ View Profile
                                 {% if user.profile.address %}
                                 <div class="row">
                                     <div class="col">
-                                        <p class="labels"><strong>Country</strong></p>
+                                        <p class="labels"><strong>State</strong></p>
                                     </div>
                                     <div class="col">
-                                        <p class="labels">{{ user.profile.country }}</p>
+                                        <p class="labels">{{ user.profile.state }}</p>
                                     </div>
                                 </div>
                                 {% endif %}
-                                <!-- <div class="row">
-                                    <div class="col">
-                                        <p class="labels"><strong>Estado</strong></p>
-                                    </div>
-                                    <div class="col">
-                                        <p class="labels">Sonora</p>
-                                    </div>
-                                </div>
+                                {% if user.profile.city %}
                                 <div class="row">
                                     <div class="col">
-                                        <p class="labels"><strong>Ciudad</strong></p>
+                                        <p class="labels"><strong>City</strong></p>
                                     </div>
                                     <div class="col">
-                                        <p class="labels">Hermosillo</p>
+                                        <p class="labels">{{ user.profile.city }}</p>
                                     </div>
-                                </div> -->
+                                </div>
+                                {% endif %}
+                                {% if user.profile.zip_code %}
+                                <div class="row">
+                                    <div class="col">
+                                        <p class="labels"><strong>Zip</strong></p>
+                                    </div>
+                                    <div class="col">
+                                        <p class="labels">{{ user.profile.zip_code }}</p>
+                                    </div>
+                                </div>
+                                {% endif %}
                                 <div class="row">
                                     <div class="col-md-12"><a class="btn btn-warning" role="button" href="{% url 'users:edit_profile' %}">Edit</a></div>
                                 </div>
