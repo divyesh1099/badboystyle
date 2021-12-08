@@ -170,5 +170,3 @@ def contactus(request):
 
 def companyinformation(request):
     return render(request, 'home/companyinformation.html')
-
-# def send_mail(request):
