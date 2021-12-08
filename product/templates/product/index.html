@@ -24,7 +24,11 @@ Badboystyle|Product
                                         {% if product.image3 %}
                                         <img class="img-fluid d-block small-preview" src="{{ product.image3.url }}">
                                         {% endif %} -->
-                                        {% if product.variations %}
+
+                                        {% if product.variations or product.images %}                                        
+                                            {% for image in product.images.all %}
+                                            <img class="img-fluid d-block small-preview" src="{{ image.image.url }}">
+                                            {% endfor %}
                                             {% for variation in product.variations.all %}
                                             <img class="img-fluid d-block small-preview" src="{{ variation.image.url }}">
                                             {% endfor %}
@@ -45,12 +49,12 @@ Badboystyle|Product
                                         <div class="col-lg-6 col-md-6 col-sm-12">
                                             <div class="price">
                                                 {% if product.offer.discount %}
-                                                <h6><strike>{{ product.price }}₹</strike>  {{ product.offer.discount }} %OFF</h6>
-                                                {% with discounted_value=product.price|mul:product.offer.discount|div:100 %}
-                                                <h3>{{ product.price|sub:discounted_value }}₹</h3>
+                                                <h6><strike>{{ product.variations.first.price }}₹</strike>  {{ product.offer.discount }} %OFF</h6>
+                                                {% with discounted_value=product.variations.first.price|mul:product.offer.discount|div:100 %}
+                                                <h3>{{ product.variations.first.price|sub:discounted_value }}₹</h3>
                                                 {% endwith %}
                                                 {% else %}
-                                                <h3>{{ product.price }}₹</h3>
+                                                <h3>{{ product.variations.first.price }}₹</h3>
                                                 {% endif %}
                                             </div>
                                         </div>
@@ -90,9 +94,14 @@ Badboystyle|Product
                                                     </div>
                                                     <div class="d-flex flex-row flex-nowrap overflow-auto">
                                                     {% for variation in product.variations.all %}
+                                                    
+
                                                         <div class="form-check">
-                                                            {% if variation.stock >= 1 %}
-                                                            <input class="form-check-input" type="radio" name="variation" id="variation" value="[{{ variation.size }}, {{ variation.color.color }}, {{ variation.id }}, {{ variation.price }}]" required>
+                                                            {% if variation.stock < 1 %}
+                                                            <input class="form-check-input" type="radio" name="variation" id="variation" value="{{ variation.generated_variation_id }}" disabled>
+                                                            {% else %}
+                                                            <input class="form-check-input" type="radio" name="variation" id="variation" value="{{ variation.generated_variation_id }}" required>
+                                                            {% endif %}
                                                             <label class="form-check-label" for="flexRadioDefault1">
                                                                 <div class="card card-block mx-2">
                                                                     <div class="card-img-top" style="max-width: 100px;">
@@ -104,9 +113,13 @@ Badboystyle|Product
                                                                         {% with discounted_value=variation.price|mul:product.offer.discount|div:100 %}
                                                                         <h6>Price: {{ variation.price|sub:discounted_value|floatformat:2 }}₹</h6>
                                                                         {% endwith %}
+                                                                        {% if variation.stock == 0 %}
+                                                                        <h6 class="text-danger">Out of Stock :(</h6>
+                                                                        {% else %}
                                                                         <h6>Stock: {{ variation.stock }}</h6>
+                                                                        {% endif %}
                                                                         <div class="row">
-                                                                            {% if user.is_active and product.stock > 0 %}
+                                                                            {% if user.is_active and variation.stock > 0 %}
                                                                             <div class="col-12">
                                                                                 {% if product.product_of_item.quantity %}
                                                                                 <p class="form-group">Quantity:<input type="number" name='quantity' min="1" max="{{ variation.stock }}" placeholder="1" value="{{ product.product_of_item.quantity }}"></p>
@@ -119,13 +132,13 @@ Badboystyle|Product
                                                                     </div>
                                                                 </div>
                                                             </label>
-                                                            {% else %}
-                                                            <h3>Check Our All Products <a href="{% url 'home:all' %}">Here</a></h3>
-                                                            <input class="form-check-input" type="hidden" name="variation"  id="variation" value="[{{ variation.size }}, {{ variation.color.color }}, {{ variation.id }}, {{ variation.price }}]" required>
-                                                            {% endif %}
                                                             
+
+                                                            {% if product.stock < 1 %}
+                                                            <h3>Check Our All Products <a href="{% url 'home:all' %}">Here</a></h3>
+                                                            {% endif %}
+
                                                         </div>
-                                                        <input type="hidden" name="price" value="{{ variation.price }}">
                                                         {% endfor %}
                                                     </div>
                                                 </div>
@@ -133,38 +146,9 @@ Badboystyle|Product
                                             
                                             <h4 class="font-weight-bold text-danger">Only {{ product.stock }} left in Stock!</h4>
                                             {% endif %}
-                                            <!-- Variation Ends -->
-                                            <!-- {% else %} -->
-                                            <!-- Size and Color Form Starts -->
-                                            <!-- {% if product.sizes_available %}
-                                            <h4>Available Sizes                                            
-                                                <select name="size" id="size">
-                                                {% for size in product.sizes_available.all %}
-                                                <option value="{{ size }}">{{ size }}</option>
-                                                {% endfor %}
-                                                </select>
-                                            </h4>
-                                            {% endif %}
-                                            {% if product.colors_available %}
-                                            <h4>Available Colors
-                                                <select name="color" id="my_dropdown_for_color">
-                                                {% for color in product.colors_available.all %}                                    
-                                                <option style="background-color: {{ color.color }};" value="{{ color.color }}"><span>{{ color.name }}</span></option>
-                                                {% endfor %}
-                                                </select> -->
-                                                <!-- <div class="d-flex flex-row"> -->
-                                                    <!-- {% for color in product.colors_available.all %} -->
-                                                    <!-- <button class="p-1 m-1 btn btn-lg" style="height: 20px; width: 20px; background-color: {{ color }};"><input type="hidden" value="{{ color }}"></button> -->
-                                                    <!-- {% endfor %} -->
-                                                <!-- </div> -->
-                                            <!-- </h4>
-                                            <input type="hidden" name="price" value="{{ product.price }}">
-                                            {% endif %} -->
-                                            <!-- Size and Color Form Ends -->
+                                            
                                             {% endif %}                                        
                                         </div>
-                                        <p>{{ product.description }}</p>
-                                        
                                     </div>
                                 </form>
                             </div>
@@ -175,77 +159,87 @@ Badboystyle|Product
                 <div class="product-info">
                     <div>
                         <ul class="nav nav-tabs" role="tablist" id="myTab">
-                            <li class="nav-item" role="presentation"><a class="nav-link active" role="tab" data-bs-toggle="tab" id="description-tab" href="#description">Description</a></li>
                             <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" id="specifications-tabs" href="#specifications">Specifications</a></li>
+                            <!-- <li class="nav-item" role="presentation"><a class="nav-link active" role="tab" data-bs-toggle="tab" id="description-tab" href="#description">Description</a></li> -->
                             <!-- REVIEWS TAB BUTTON STARTS -->
                             <!-- <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" id="reviews-tab" href="#reviews">Reviews</a></li> -->
                             <!-- REVIEWS TAB BUTTON ENDS -->                        
                         </ul>
                         <div class="tab-content" id="myTabContent">
-                            <div class="tab-pane fade show active description" role="tabpanel" id="description">
+                            <!-- <div class="tab-pane fade show active description" role="tabpanel" id="description">
                                 {{ product.detail|safe }}
-                            </div>
+                            </div> -->
                             <div class="tab-pane fade specifications" role="tabpanel" id="specifications">
                                 <div class="table-responsive">
                                     <table class="table table-bordered table-hover">
                                         <tbody>
-                                            {% if product.specification.product_dimension_LxWxH %}
+                                            <tr>
+                                                <td class="stat">Variation Name</td>
+                                                {% for variation in product.variations.all %}
+                                                <td class="stat">{{ product.name }} {{ variation.color }} {{ variation.size }}</td>
+                                                {% endfor %}
+                                            </tr>
                                             <tr>
                                                 <td class="stat">Product dimension LxWxH</td>
-                                                <td>{{ product.specification.product_dimension_LxWxH }}</td>
+                                                {% for variation in product.variations.all %}
+                                                <td>{{ variation.dimension_LxWxH }}</td>
+                                                {% endfor %}
                                             </tr>
-                                            {% endif %}
-                                            {% if product.specification.manufacturer_name %}
                                             <tr>
                                                 <td class="stat">Manufacturer name</td>
-                                                <td>{{ product.specification.manufacturer_name }}</td>
+                                                {% for variation in product.variations.all %}
+                                                <td>{{ variation.manufacturer_name }}</td>
+                                                {% endfor %}
+
                                             </tr>
-                                            {% endif %}
-                                            {% if product.specification.country_of_origin %}
                                             <tr>
                                                 <td class="stat">Country of origin</td>
-                                                <td>{{ product.specification.country_of_origin }}</td>
+                                                {% for variation in product.variations.all %}
+                                                <td>{{ variation.country_of_origin }}</td>
+                                                {% endfor %}
+
                                             </tr>
-                                            {% endif %}
-                                            {% if product.specification.department %}
                                             <tr>
                                                 <td class="stat">Department</td>
-                                                <td>{{ product.specification.department }}</td>
+                                                {% for variation in product.variations.all %}
+                                                <td>{{ variation.department }}</td>
+                                                {% endfor %}
                                             </tr>
-                                            {% endif %}
-                                            {% if product.specification.manufacturer_address %}
                                             <tr>
                                                 <td class="stat">Manufacturer address</td>
-                                                <td>{{ product.specification.manufacturer_address }}</td>
+                                                {% for variation in product.variations.all %}
+                                                <td>{{ variation.manufacturer_address }}</td>
+                                                {% endfor %}
                                             </tr>
-                                            {% endif %}
-                                            {% if product.specification.packer_address %}
                                             <tr>
                                                 <td class="stat">Packer address</td>
-                                                <td>{{ product.specification.packer_address }}</td>
+                                                {% for variation in product.variations.all %}
+                                                <td>{{ variation.packer_address }}</td>
+                                                {% endfor %}
                                             </tr>
-                                            {% endif %}
-                                            {% if product.specification.item_weight %}
                                             <tr>
                                                 <td class="stat">Item weight</td>
-                                                <td>{{ product.specification.item_weight }}</td>
+                                                {% for variation in product.variations.all %}
+                                                <td>{{ variation.item_weight }}</td>
+                                                {% endfor %}
                                             </tr>
-                                            {% endif %}
-                                            {% if product.specification.net_quantity %}
                                             <tr>
                                                 <td class="stat">Net Quantity</td>
-                                                <td>{{ product.specification.net_quantity }}</td>
+                                                {% for variation in product.variations.all %}
+                                                <td>{{ variation.net_quantity }}</td>
+                                                {% endfor %}
                                             </tr>
-                                            {% endif %}
-                                            {% if product.specification.included_components %}
                                             <tr>
                                                 <td class="stat">Included Components</td>
-                                                <td>{{ product.specification.included_components }}</td>
+                                                {% for variation in product.variations.all %}
+                                                <td>{{ variation.included_components }}</td>
+                                                {% endfor %}
                                             </tr>
-                                            {% endif %}
                                             <tr>
-                                                <td class="stat">Product Id</td>
-                                                <td>{{ product.generated_product_id }}</td>
+                                                <td class="stat">Variation Id</td>
+                                                {% for variation in product.variations.all %}
+                                                <td>{{ variation.generated_variation_id }}</td>
+                                                {% endfor %}
                                             </tr>
                                         </tbody>
                                     </table>
@@ -274,8 +268,8 @@ Badboystyle|Product
                                         <!-- STAR RATING STARTS -->
                                         <!-- <div class="rating"><img src="{% static 'assets/img/star.svg' %}"><img src="{% static 'assets/img/star.svg' %}"><img src="{% static 'assets/img/star.svg' %}"><img src="{% static 'assets/img/star-half-empty.svg' %}"><img src="{% static 'assets/img/star-empty.svg' %}"></div> -->
                                         <!-- STAR RATING STARTS -->
-                                        {% with discounted_value=a_product.price|mul:a_product.offer.discount|div:100 %}                                        
-                                        <h4>{{ a_product.price|sub:discounted_value }}₹</h4>
+                                        {% with discounted_value=a_product.variations.first.price|mul:a_product.offer.discount|div:100 %}                                        
+                                        <h4>{{ a_product.variations.first.price|sub:discounted_value }}₹</h4>
                                         {% endwith %}
                                     </div>
                                 </div>

@@ -94,3 +94,17 @@ def delete(request, generated_order_id):
     except Exception as e:
         print("Cannot delete order because ", e)
     return render(request, 'order/history.html', context)
+
+@login_required
+def cancel(request, generated_order_id):
+    orders = Order.objects.filter(user = request.user)
+    context = {
+        "orders": orders,
+    }
+    try:
+        order = Order.objects.filter(generated_order_id = generated_order_id)[0]
+        order.cancelled = True
+        order.save()
+    except Exception as e:
+        print("Cannot cancel order because ", e)
+    return render(request, 'order/history.html', context)

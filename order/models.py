@@ -18,7 +18,6 @@ class Order(models.Model):
     city = models.CharField(max_length=1000)
     state = models.CharField(max_length=1000)
     zip = models.PositiveBigIntegerField()
-    # amount = models.ForeignKey(Total, on_delete=models.CASCADE)
     phonenumber = models.PositiveBigIntegerField()
     amount = models.PositiveIntegerField()
     dispatched = models.BooleanField()
@@ -26,6 +25,8 @@ class Order(models.Model):
     delivered = models.BooleanField()
     delivered_timestamp = models.DateTimeField(auto_now_add=True)
     paid = models.BooleanField()
+    cancelled = models.BooleanField(default=False)
+    active = models.BooleanField(default=True)
 
     class Meta:
         ordering = ['-date']

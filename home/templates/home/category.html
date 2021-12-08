@@ -2,7 +2,7 @@
 {% load static %}
 {% load mathfilters %}
 {% block title %}
-Badboystyle|Category
+Badboystyle|Category-{{ category.name }}
 {% endblock %}
 
 {% block body %}
@@ -17,17 +17,17 @@ Badboystyle|Category
                 {% for product in products %}
                 <!-- <div class="col-md-6 col-lg-4"> -->
                     <div class="card" style="width:300px;">
-                        <img class="card-img-top d-block" src="{{ product.image.url }}">
+                        <img class="card-img-top d-block" src="{{ product.images.first.image.url }}">
                         <div class="card-body">
                             <h4 class="card-title">{{ product.name }}</h4>
                             <div class="row">
                                 <div class="col-lg-6 col-sm-12">
                                     {% if product.offer %}
-                                    {% with discounted_value=product.price|mul:product.offer.discount|div:100 %}
-                                        <h3 class="font-weight-bold">{{ product.price|sub:discounted_value }}₹</h3>   
+                                    {% with discounted_value=product.variations.first.price|mul:product.offer.discount|div:100 %}
+                                        <h3 class="font-weight-bold">{{ product.variations.first.price|sub:discounted_value }}₹</h3>   
                                     {% endwith %}
                                     {% else %}
-                                    <h3 class="font-weight-bold">{{ product.price }}₹</h3>
+                                    <h3 class="font-weight-bold">{{ product.variations.first.price }}₹</h3>
                                     {% endif %}
                                 </div>
                                 <div class="col-lg-6 col-sm-12">

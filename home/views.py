@@ -152,12 +152,13 @@ def contactus(request):
         subject = request.POST['subject']
         name = request.POST['name']
         email = request.POST['email']
-        message = request.POST['message'] + "---from---" + name
+        message = request.POST['message'] + " ---from--- " + name + " Email id: " + email
         email_from = settings.EMAIL_HOST_USER
-        recipient_list = [email, ]
+        recipient_list = [email_from]
         try:
             send_mail(subject, message, email_from, recipient_list)
-        except:
+        except Exception as e:
+            print("Email error is ", e)
             return render(request, 'home/contactus.html', {
                 'fail': "Failed, Try Again Later"
             })

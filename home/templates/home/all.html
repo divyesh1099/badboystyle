@@ -102,15 +102,15 @@ Badboystyle|All
                                             <div class="price row">
                                                 <div class="col-lg-5 col-sm-12">
                                                     {% if product.offer %}
-                                                        {% with discounted_value=product.price|mul:product.offer.discount|div:100 %}
-                                                        <h3>{{ product.price|sub:discounted_value }}₹</h3>
+                                                        {% with discounted_value=product.variations.first.price|mul:product.offer.discount|div:100 %}
+                                                        <h3>{{ product.variations.first.price|sub:discounted_value }}₹</h3>
                                                         {% endwith %}
                                                     {% else %}
-                                                    <h3>{{ product.price }}₹</h3>
+                                                    <h3>{{ product.variations.first.price }}₹</h3>
                                                     {% endif %}
                                                 </div>
                                                 <div class="col-lg-7 col-sm-12">
-                                                        <p><strike>{{ product.price }}₹</strike> {{ product.offer.discount }}% OFF</p>
+                                                        <p><strike>{{ product.variations.first.price }}₹</strike> {{ product.offer.discount }}% OFF</p>
                                                 </div>
                                             </div>
                                         </div>
