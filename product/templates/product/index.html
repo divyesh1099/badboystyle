@@ -25,12 +25,16 @@ Badboystyle|Product
                                         <img class="img-fluid d-block small-preview" src="{{ product.image3.url }}">
                                         {% endif %} -->
 
-                                        {% if product.variations or product.images %}                                        
+                                        {% if product.images %}                                        
                                             {% for image in product.images.all %}
                                             <img class="img-fluid d-block small-preview" src="{{ image.image.url }}">
                                             {% endfor %}
+                                        {% endif %}
+                                        {% if product.variations %}                            
                                             {% for variation in product.variations.all %}
-                                            <img class="img-fluid d-block small-preview" src="{{ variation.image.url }}">
+                                                {% if variation.image %}
+                                                    <img class="img-fluid d-block small-preview" src="{{ variation.image.url }}">
+                                                {% endif %}
                                             {% endfor %}
                                         {% endif %}
                                     </div>
@@ -48,7 +52,7 @@ Badboystyle|Product
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-12">
                                             <div class="price">
-                                                {% if product.offer.discount %}
+                                                {% if product.offer %}
                                                 <h6><strike>{{ product.variations.first.price }}₹</strike>  {{ product.offer.discount }} %OFF</h6>
                                                 {% with discounted_value=product.variations.first.price|mul:product.offer.discount|div:100 %}
                                                 <h3>{{ product.variations.first.price|sub:discounted_value }}₹</h3>
