@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-xq3(fit2rvadr=qjd!7w%gb29_raw@8)bn-9)es1+ywp!8vc=k
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'badboystyle.in', 'www.badboystyle.in']
+ALLOWED_HOSTS = ['93.188.164.155', '127.0.0.1', 'badboystyle.in']
 
 
 # Application definition
@@ -144,6 +144,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# Default primary key field type
+# https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
 # Static 
 # Try 1
 # if DEBUG:
@@ -154,18 +160,10 @@ STATIC_URL = '/static/'
 #     STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 # Try 2
 # STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-STATIC_ROOT = '/home/gftkftxw/repositories/badboystyle/badboystyle/static'
-
-# Default primary key field type
-# https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
-
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
 
 # Media 
 MEDIA_URL = '/media/'
-# MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
-MEDIA_ROOT = '/home/gftkftxw/repositories/badboystyle/badboystyle/media'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 # Email Settings Done Manually
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
