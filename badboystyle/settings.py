@@ -153,19 +153,23 @@ STATIC_URL = '/static/'
 # else:
 #     STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 # Try 2
+<<<<<<< HEAD
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+=======
 # STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-STATIC_ROOT = '/home/gftkftxw/repositories/badboystyle/static'
-
+STATIC_ROOT = '/home/gftkftxw/repositories/badboystyle/badboystyle/static'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+>>>>>>> b61784a8fd80ff200df261c99a44cd07fad7d956
 
 # Media 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = '/home/gftkftxw/repositories/badboystyle/media'
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+MEDIA_ROOT = '/home/gftkftxw/repositories/badboystyle/badboystyle/media'
 
 # Email Settings Done Manually
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
