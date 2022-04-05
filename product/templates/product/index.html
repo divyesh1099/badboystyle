@@ -37,6 +37,8 @@ Badboystyle|Product
                                                 {% endif %}
                                             {% endfor %}
                                         {% endif %}
+
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -151,7 +153,11 @@ Badboystyle|Product
                                             <h4 class="font-weight-bold text-danger">Only {{ product.stock }} left in Stock!</h4>
                                             {% endif %}
                                             
-                                            {% endif %}                                        
+                                            {% endif %}   
+                                            {% if product.shop %}
+                                                <!-- This Product is from <a href="{% url 'shop:index' product.shop %}">{{ product.shop }}</a> shop -->
+                                                {{ product.shop }}
+                                            {% endif %}                                     
                                         </div>
                                     </div>
                                 </form>

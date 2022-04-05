@@ -27,6 +27,7 @@ urlpatterns = [
     path('users/', include('users.urls')),
     path('payment/', include('payment.urls')),
     path('product/', include('product.urls')),
+    path('shop/', include('shop.urls')),
 
 ]+static(settings.STATIC_URL, docoment_root=settings.STATIC_ROOT)
 if settings.DEBUG:

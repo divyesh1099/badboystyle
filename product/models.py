@@ -3,6 +3,7 @@ from django.db import models
 from django.db.models.fields.related import ForeignKey
 from django.contrib.auth.models import User
 from django.conf import settings
+from shop.models import *
 import uuid
 from colorfield.fields import ColorField
 from offer.models import Offer
@@ -54,7 +55,7 @@ class Product(models.Model):
     created = models.DateTimeField(auto_now_add = True)
     edited = models.DateTimeField(auto_now = True)
     stock = models.PositiveIntegerField(default=1, validators=[MinValueValidator(0)], help_text="Will Be Automatically Calculated")
-
+    shop = models.OneToOneField(Shop, on_delete=models.CASCADE, related_name = "shop_of_product", blank=True)
     class Meta:
         ordering = ['edited']
 

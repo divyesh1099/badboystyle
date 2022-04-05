@@ -1,4 +1,3 @@
-from django.conf.urls import url
 from django.contrib.auth import login, authenticate, logout
 from django.shortcuts import render, redirect
 from django.db import IntegrityError
