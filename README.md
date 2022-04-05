@@ -1,3 +1,3 @@
-# Badboystyle ([badbosystyle.in](https://badboystyle.in "badbosystyle.in"))
-Website for boys cloth shopping.
+# Badboystyle ([stopNshop.in](https://githiub.com/divyesh1099 "stopNshop.in"))
+Website for artifacts shopping.
 
