@@ -111,7 +111,9 @@ Badboystyle|Product
                                                             <label class="form-check-label" for="flexRadioDefault1">
                                                                 <div class="card card-block mx-2">
                                                                     <div class="card-img-top" style="max-width: 100px;">
+                                                                        <!-- {% if variation.image.url %}
                                                                         <img class="img-fluid d-block small-preview" src="{{ variation.image.url }}" alt="Variation Image Here" >
+                                                                        {% endif %} -->
                                                                     </div>
                                                                     <div class="card-footer">
                                                                         <h6>Size: {{ variation.size }}</h6>
@@ -155,8 +157,7 @@ Badboystyle|Product
                                             
                                             {% endif %}   
                                             {% if product.shop %}
-                                                <!-- This Product is from <a href="{% url 'shop:index' product.shop %}">{{ product.shop }}</a> shop -->
-                                                {{ product.shop }}
+                                                <a href="{{ product.shop.website }}">{{ product.shop }}</a>
                                             {% endif %}                                     
                                         </div>
                                     </div>

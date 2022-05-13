@@ -32,7 +32,7 @@ def payment_success(request, generated_order_id):
     items = Item.objects.all()
     for item in items:
         product = Product.objects.get(name = item.name.name)
-        variation = Variation.objects.get(name = item.variation.name)
+        variation = Variation.objects.filter(name = item.variation.name)[0]
         variation.stock = variation.stock - item.quantity
         variation.save()
         product.save()
